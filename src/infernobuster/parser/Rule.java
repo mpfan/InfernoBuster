@@ -9,13 +9,15 @@ public class Rule {
 	private int destinationPort;
 	private int priority;
 	private Action action;
+	private Direction direction;
 	
-	public Rule(String sourceIp, String destinationIp, int sourcePort, int destinationPort, Action action, int priority) {
+	public Rule(String sourceIp, String destinationIp, int sourcePort, int destinationPort, Action action, Direction direction, int priority) {
 		this.sourceIp = sourceIp;
 		this.destinationIp = destinationIp;
 		this.sourcePort = sourcePort;
 		this.destinationPort = destinationPort;
 		this.action = action;
+		this.direction = direction;
 		this.priority = priority;
 		
 		source = new IpRange(sourceIp);
@@ -50,6 +52,10 @@ public class Rule {
 		return destination;
 	}
 	
+	public Direction getDirection() {
+		return direction;
+	}
+	
 	public Action getAction() {
 		return action;
 	}
@@ -58,28 +64,32 @@ public class Rule {
 		return source.equals(rule.getSource()) 
 				&& destination.equals(rule.getDestination()) 
 				&& sourcePort == rule.getSourcePort() 
-				&& destinationPort == rule.getDestinationPort();
+				&& destinationPort == rule.getDestinationPort()
+				&& direction == rule.getDirection();
 	}
 	
 	private boolean isSubset(Rule rule) {
 		return source.isSubset(rule.getSource()) 
 		&& destination.isSubset(rule.getDestination()) 
 		&& sourcePort == rule.getSourcePort() 
-		&& destinationPort == rule.getDestinationPort();
+		&& destinationPort == rule.getDestinationPort()
+		&& direction == rule.getDirection();
 	}
 	
 	private boolean isSuperset(Rule rule) {
 		return source.isSuperset(rule.getSource()) 
 		&& destination.isSuperset(rule.getDestination()) 
 		&& sourcePort == rule.getSourcePort() 
-		&& destinationPort == rule.getDestinationPort();
+		&& destinationPort == rule.getDestinationPort()
+		&& direction == rule.getDirection();
 	}
 	
 	private boolean isIntersecting(Rule rule) {
 		return source.isIntersecting(rule.getSource())
 				&& destination.isIntersecting(rule.getDestination())
 				&& sourcePort == rule.getSourcePort() 
-				&& destinationPort == rule.getDestinationPort();
+				&& destinationPort == rule.getDestinationPort()
+				&& direction == rule.getDirection();
 	}
 	
 	public boolean isRedundant(Rule rule) {
