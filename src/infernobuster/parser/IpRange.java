@@ -29,7 +29,7 @@ public class IpRange {
 	}
 	
 	public boolean isIntersecting(IpRange ipRange) {
-		return (Integer.compareUnsigned(start, ipRange.start) <= 0 && Integer.compareUnsigned(end, ipRange.end) <= 0)
+		return !isSubset(ipRange) && !isSubset(ipRange) && (Integer.compareUnsigned(start, ipRange.start) <= 0 && Integer.compareUnsigned(end, ipRange.end) <= 0)
 				|| Integer.compareUnsigned(start, ipRange.start) >= 0 && Integer.compareUnsigned(end, ipRange.end) >= 0;
 	}
 	

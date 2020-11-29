@@ -125,6 +125,6 @@ public class Rule {
 	}
 	
 	public String toString() {
-		return sourceIp + " " + sourcePort + " " + destinationIp + " " + destinationPort + " " + priority;
+		return sourceIp + " " + sourcePort + " " + destinationIp + " " + destinationPort + " " + action + " " + priority;
 	}
 }
