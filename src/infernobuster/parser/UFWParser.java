@@ -1,6 +1,5 @@
 package infernobuster.parser;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /*
@@ -11,9 +10,9 @@ import java.util.ArrayList;
 public class UFWParser extends Parser{
 	public UFWParser() {}
 
-	public ArrayList<Rule> parse(File file) {
-		
-		
+	@Override
+	public ArrayList<Rule> parse(String file) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

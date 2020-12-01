@@ -3,6 +3,7 @@ package infernobuster.parser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 public abstract class Parser {
 	protected String read(String filename) {
@@ -25,4 +26,6 @@ public abstract class Parser {
 		
 		return sb.toString();
 	}
+	
+	public abstract ArrayList<Rule> parse(String file);
 }
