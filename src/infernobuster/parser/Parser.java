@@ -26,5 +26,5 @@ public abstract class Parser {
 		return content;
 	}
 	
-	public abstract ArrayList<Rule> parse(String file);
+	public abstract ArrayList<Rule> parse(ArrayList<String> file);
 }
