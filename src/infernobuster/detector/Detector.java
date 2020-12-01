@@ -14,7 +14,7 @@ public class Detector {
 		
 		for(int i = 0; i < rules.size(); i++) {
 			for(int j = 0; j < rules.size(); j++) {
-				if(i == j) continue;
+				if(i == j || rules.get(i).getProtocol() != rules.get(j).getProtocol()) continue;
 				
 				Anomaly anomaly = null;
 				ArrayList<Rule> rList = null;
