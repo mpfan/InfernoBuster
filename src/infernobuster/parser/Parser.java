@@ -6,25 +6,24 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public abstract class Parser {
-	protected String read(String filename) {
+	protected ArrayList<String> read(String filename) {
 		File file = new File(filename); 
 		  
 		BufferedReader br;
-		StringBuilder sb = null;
+		ArrayList<String> content = new ArrayList<String>();
+		
 		try {
 			br = new BufferedReader(new FileReader(file));
 			
-			sb = new StringBuilder();
 			String line;
 			while ((line = br.readLine()) != null) {
-				sb.append(line);
+				content.add(line);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
-		return sb.toString();
+		return content;
 	}
 	
 	public abstract ArrayList<Rule> parse(String file);
