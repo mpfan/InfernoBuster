@@ -39,17 +39,20 @@ public class IpRange {
 	
 	private void resolveRange(String ip) {
 		String[] parsed = ip.split("/"); // Splits the address and the mask
-		String[] startingIp = parsed[0].split("\\.");
-		int mask = Integer.parseInt(parsed[1]);
-		
-		int ipStart = 0;
-		// Converting to byte
-		for(String octet : startingIp) {
-			ipStart += Integer.parseInt(octet);
-			ipStart = ipStart << 8;
-		}
+        String[] startingIp = parsed[0].split("\\.");
+        int mask = 1;
+        if(parsed.length > 1) {
+            mask = Integer.parseInt(parsed[1]);
+        }
 
-		this.start = ipStart;
-		this.end = ipStart + ~mask;
+        int ipStart = 0;
+        // Converting to byte
+        for(String octet : startingIp) {
+            ipStart += Integer.parseInt(octet);
+            ipStart = ipStart << 8;
+        }
+
+        this.start = ipStart;
+        this.end = ipStart + ~mask;
 	}
 }
