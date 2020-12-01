@@ -10,14 +10,16 @@ public class Rule {
 	private int priority;
 	private Action action;
 	private Direction direction;
+	private Protocol protocol;
 	
-	public Rule(String sourceIp, String destinationIp, int sourcePort, int destinationPort, Action action, Direction direction, int priority) {
+	public Rule(String sourceIp, String destinationIp, int sourcePort, int destinationPort, Action action, Direction direction, Protocol protocol, int priority) {
 		this.sourceIp = sourceIp;
 		this.destinationIp = destinationIp;
 		this.sourcePort = sourcePort;
 		this.destinationPort = destinationPort;
 		this.action = action;
 		this.direction = direction;
+		this.protocol = protocol;
 		this.priority = priority;
 		
 		source = new IpRange(sourceIp);
@@ -58,6 +60,10 @@ public class Rule {
 	
 	public Action getAction() {
 		return action;
+	}
+	
+	public Protocol getProtocol() {
+		return protocol;
 	}
 	
 	private boolean equals(Rule rule) {
