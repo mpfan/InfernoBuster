@@ -57,13 +57,26 @@ public class UFWParser extends Parser {
 						protocol = Protocol.TCP;
 					} else if(protocolStr.equalsIgnoreCase("udp")) {
 						protocol = Protocol.UDP;
-					} else {
+					} else if(protocolStr.equalsIgnoreCase("any")) {
 						protocol = Protocol.ANY;
 					}
 					
-					int destinationPort = Integer.parseInt(lineArr[5]);
+					int destinationPort = -2;
+					String dport = lineArr[5];
+					if(dport.equalsIgnoreCase("any")) {
+						destinationPort = Rule.ANY;
+					} else {
+						destinationPort = Integer.parseInt(dport);
+					}
 					String destinationIp = lineArr[6];
-					int sourcePort = Integer.parseInt(lineArr[7]);
+					
+					int sourcePort = -2;
+					String sport = lineArr[7];
+					if(sport.equalsIgnoreCase("any")) {
+						sourcePort = Rule.ANY;
+					} else {
+						sourcePort = Integer.parseInt(sport);
+					}
 					String sourceIp = lineArr[8];
 					
 					String directionStr = lineArr[9];

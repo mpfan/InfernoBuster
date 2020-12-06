@@ -18,15 +18,33 @@ public class IpTableParser extends Parser{
 			// Inbound or Outbound
 			String sourceIp = find(tokens, "-s");
 			String destinationIp = find(tokens, "-d");
-			int sourcePort = Integer.parseInt(find(tokens, "--sport"));
-			int destinationPort = Integer.parseInt(find(tokens, "--dport"));
+			
+			int sourcePort = -2;
+			String sport = find(tokens, "--sport");
+			if(sport.equalsIgnoreCase("any")) {
+				sourcePort = Rule.ANY;
+			} else {
+				sourcePort = Integer.parseInt(sport);
+			}
+			
+			int destinationPort = -2;
+			String dport = find(tokens, "--dport");
+			if(dport.equalsIgnoreCase("any")) {
+				destinationPort = Rule.ANY;
+			} else {
+				destinationPort = Integer.parseInt(dport);
+			}
+			
 			String protocolStr = find(tokens, "-p");
 			Protocol protocol = null;
 			if(protocolStr.equalsIgnoreCase("tcp")) {
 				protocol = Protocol.TCP;
 			} else if(protocolStr.equalsIgnoreCase("udp")) {
 				protocol = Protocol.UDP;
+			} else if(protocolStr.equalsIgnoreCase("any")) {
+				protocol = Protocol.ANY;
 			}
+			
 			String actionStr = find(tokens, "-j");
 			Action action = null;
 			if(actionStr.equalsIgnoreCase("DROP")) {

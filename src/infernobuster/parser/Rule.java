@@ -17,6 +17,8 @@ public class Rule {
 	private Direction direction;
 	private Protocol protocol;
 	
+	public static int ANY = -1;
+	
 	/**
 	 * 
 	 * @param sourceIp
@@ -38,8 +40,8 @@ public class Rule {
 		this.protocol = protocol;
 		this.priority = priority;
 		
-		source = new IpRange(sourceIp);
-		destination = new IpRange(destinationIp);
+		source = new IpRange("any");
+		destination = new IpRange("any");
 	}
 	
 	/**
@@ -124,14 +126,39 @@ public class Rule {
 	
 	/**
 	 * 
+	 * @return 
+	 */
+	private boolean comparePort(int port1, int port2) {
+		if(port1 == ANY || port2 == ANY) {
+			return true;
+		} else {
+			return port1 == port2;
+		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean compareProtocol(Protocol other) {
+		if(protocol == Protocol.ANY || other == Protocol.ANY) {
+			return true;
+		}
+		else {
+			return protocol == other;
+		}
+	}
+	
+	/**
+	 * 
 	 * @param rule
 	 * @return
 	 */
 	private boolean equals(Rule rule) {
 		return source.equals(rule.getSource()) 
 				&& destination.equals(rule.getDestination()) 
-				&& sourcePort == rule.getSourcePort() 
-				&& destinationPort == rule.getDestinationPort()
+				&& comparePort(sourcePort, rule.getDestinationPort())
+				&& comparePort(destinationPort, rule.getDestinationPort())
 				&& direction == rule.getDirection();
 	}
 	
@@ -143,8 +170,8 @@ public class Rule {
 	private boolean isSubset(Rule rule) {
 		return source.isSubset(rule.getSource()) 
 		&& destination.isSubset(rule.getDestination()) 
-		&& sourcePort == rule.getSourcePort() 
-		&& destinationPort == rule.getDestinationPort()
+		&& comparePort(sourcePort, rule.getDestinationPort())
+		&& comparePort(destinationPort, rule.getDestinationPort())
 		&& direction == rule.getDirection();
 	}
 	
@@ -156,8 +183,8 @@ public class Rule {
 	private boolean isSuperset(Rule rule) {
 		return source.isSuperset(rule.getSource()) 
 		&& destination.isSuperset(rule.getDestination()) 
-		&& sourcePort == rule.getSourcePort() 
-		&& destinationPort == rule.getDestinationPort()
+		&& comparePort(sourcePort, rule.getDestinationPort())
+		&& comparePort(destinationPort, rule.getDestinationPort())
 		&& direction == rule.getDirection();
 	}
 	
@@ -169,8 +196,8 @@ public class Rule {
 	private boolean isIntersecting(Rule rule) {
 		return source.isIntersecting(rule.getSource())
 				&& destination.isIntersecting(rule.getDestination())
-				&& sourcePort == rule.getSourcePort() 
-				&& destinationPort == rule.getDestinationPort()
+				&& comparePort(sourcePort, rule.getDestinationPort())
+				&& comparePort(destinationPort, rule.getDestinationPort())
 				&& direction == rule.getDirection();
 	}
 	

@@ -82,8 +82,13 @@ public class IpRange {
 	 * @param ip
 	 */
 	private void resolveRange(String ip) {
+		if(ip.equalsIgnoreCase("any")) {
+			ip = "0.0.0.0/0";
+		}
+		
 		String[] parsed = ip.split("/"); // Splits the address and the mask
         String[] startingIp = parsed[0].split("\\.");
+        
         int mask = 1;
         if(parsed.length > 1) {
             mask = Integer.parseInt(parsed[1]);
