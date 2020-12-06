@@ -2,11 +2,17 @@ package infernobuster.parser;
 
 import java.util.ArrayList;
 
-/*
- * -A ufw-user-output -p tcp -d 10.0.2.5 –dport 55 -s 10.0.2.4 –sport 45 -j DROP
+
+/**
+ * Parse rule-tuple entries from UFW config file extract. The parsing looks for a ### RULES ### starting delimiter and ### END RULES ### ending delimiter in the ufw rule file.
+ * 
+ * The rule tuples exist in the following format: 
+ * 
+ * ### tuple ### "Action" "protocol" "dport" "dAddr" "Sport" "SAddr" "Dir"
+ * 
+ * @author Souheil
  *
  */
-
 public class UFWParser extends Parser {
 	
 	public UFWParser() {
