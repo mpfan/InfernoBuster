@@ -5,13 +5,12 @@ import java.util.ArrayList;
 public class IpTableParser extends Parser{
 	public IpTableParser() {}
 
-	public ArrayList<Rule> parse(String filename) {
-		ArrayList<String> file = read(filename);
+	public ArrayList<Rule> parse(ArrayList<String> content) {
 		ArrayList<Rule> rules = new ArrayList<Rule>();
 		
 		int priority = 0;
 		
-		for(String line : file) {
+		for(String line : content) {
 			String[] tokens = line.split("\\s+");
 			if(tokens.length < 4 || line.startsWith("#")) continue;
 			

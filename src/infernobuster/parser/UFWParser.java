@@ -19,8 +19,7 @@ public class UFWParser extends Parser {
 	}
 
 	@Override
-	public ArrayList<Rule> parse(String file) {
-		ArrayList<String> fileContents = super.read(file);
+	public ArrayList<Rule> parse(ArrayList<String> fileContents) {
 		ArrayList<Rule> ruleList = new ArrayList<Rule>();
 		int start_of_rules = 0;
 		int end_of_rules = 0;
