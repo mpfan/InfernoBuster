@@ -19,7 +19,7 @@ public class UFWParser extends Parser {
 	}
 
 	@Override
-	public ArrayList<Rule> parse(ArrayList<String> fileContents) {
+	public ArrayList<Rule> parse(ArrayList<String> fileContents) throws ParserException {
 		ArrayList<Rule> ruleList = new ArrayList<Rule>();
 		int start_of_rules = 0;
 		int end_of_rules = 0;
@@ -43,6 +43,11 @@ public class UFWParser extends Parser {
 				if (lineArr[1].equals("tuple")) {
 					
 					String actionStr = lineArr[3];
+					
+					if(actionStr == null || actionStr.isEmpty()) {
+						throw new ParserException("Malformed file");
+					}
+					
 					Action action = null;
 					if(actionStr.equalsIgnoreCase("deny")) {
 						action = Action.DENY;
@@ -51,6 +56,11 @@ public class UFWParser extends Parser {
 					}
 					
 					String protocolStr = lineArr[4];
+					
+					if(protocolStr == null || protocolStr.isEmpty()) {
+						throw new ParserException("Malformed file");
+					}
+					
 					Protocol protocol = null;
 					if(protocolStr.equalsIgnoreCase("tcp")) {
 						protocol = Protocol.TCP;
@@ -62,6 +72,11 @@ public class UFWParser extends Parser {
 					
 					int destinationPort = -2;
 					String dport = lineArr[5];
+					
+					if(dport == null || dport.isEmpty()) {
+						throw new ParserException("Malformed file");
+					}
+					
 					if(dport.equalsIgnoreCase("any")) {
 						destinationPort = Rule.ANY;
 					} else {
@@ -71,6 +86,11 @@ public class UFWParser extends Parser {
 					
 					int sourcePort = -2;
 					String sport = lineArr[7];
+					
+					if(sport == null || sport.isEmpty()) {
+						throw new ParserException("Malformed file");
+					}
+					
 					if(sport.equalsIgnoreCase("any")) {
 						sourcePort = Rule.ANY;
 					} else {
@@ -79,6 +99,11 @@ public class UFWParser extends Parser {
 					String sourceIp = lineArr[8];
 					
 					String directionStr = lineArr[9];
+					
+					if(directionStr == null || directionStr.isEmpty()) {
+						throw new ParserException("Malformed file");
+					}
+					
 					Direction direction = null;
 					if(directionStr.equalsIgnoreCase("in")) {
 						direction = Direction.IN;

@@ -11,6 +11,7 @@ import infernobuster.detector.DetectionResult;
 import infernobuster.detector.Detector;
 import infernobuster.parser.IpTableParser;
 import infernobuster.parser.Parser;
+import infernobuster.parser.ParserException;
 import infernobuster.parser.Rule;
 import infernobuster.parser.UFWParser;
 
@@ -57,7 +58,13 @@ public class Client {
 			System.exit(1);
 		}
 
-		ArrayList<Rule> rules = parser.parse(content);
+		ArrayList<Rule> rules = null;
+		try {
+			parser.parse(content);
+		} catch (ParserException e) {
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
 
 		if(args[2].equalsIgnoreCase("--debug")) {
 			System.out.println("Parsed Rules:");

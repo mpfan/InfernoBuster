@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class IpTableParser extends Parser{
 	public IpTableParser() {}
 
-	public ArrayList<Rule> parse(ArrayList<String> content) {
+	public ArrayList<Rule> parse(ArrayList<String> content) throws ParserException {
 		ArrayList<Rule> rules = new ArrayList<Rule>();
 		
 		int priority = 0;
@@ -18,8 +18,17 @@ public class IpTableParser extends Parser{
 			String sourceIp = find(tokens, "-s");
 			String destinationIp = find(tokens, "-d");
 			
+			if(sourceIp == null || destinationIp == null) {
+				throw new ParserException("Malformed file");
+			}
+			
 			int sourcePort = -2;
 			String sport = find(tokens, "--sport");
+			
+			if(sport == null) {
+				throw new ParserException("Malformed file");
+			}
+			
 			if(sport.equalsIgnoreCase("any")) {
 				sourcePort = Rule.ANY;
 			} else {
@@ -28,6 +37,11 @@ public class IpTableParser extends Parser{
 			
 			int destinationPort = -2;
 			String dport = find(tokens, "--dport");
+			
+			if(dport == null) {
+				throw new ParserException("Malformed file");
+			}
+			
 			if(dport.equalsIgnoreCase("any")) {
 				destinationPort = Rule.ANY;
 			} else {
@@ -35,6 +49,11 @@ public class IpTableParser extends Parser{
 			}
 			
 			String protocolStr = find(tokens, "-p");
+			
+			if(protocolStr == null) {
+				throw new ParserException("Malformed file");
+			}
+			
 			Protocol protocol = null;
 			if(protocolStr.equalsIgnoreCase("tcp")) {
 				protocol = Protocol.TCP;
@@ -45,6 +64,11 @@ public class IpTableParser extends Parser{
 			}
 			
 			String actionStr = find(tokens, "-j");
+			
+			if(actionStr == null) {
+				throw new ParserException("Malformed file");
+			}
+			
 			Action action = null;
 			if(actionStr.equalsIgnoreCase("DROP")) {
 				action = Action.DENY;
@@ -52,6 +76,11 @@ public class IpTableParser extends Parser{
 				action = Action.ALLOW;
 			}
 			String directionStr = find(tokens, "-A");
+			
+			if(directionStr == null) {
+				throw new ParserException("Malformed file");
+			}
+			
 			Direction direction = null;
 			if(directionStr.equalsIgnoreCase("INPUT")) {
 				direction = Direction.IN;
