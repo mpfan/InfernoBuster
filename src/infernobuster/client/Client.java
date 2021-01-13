@@ -60,7 +60,7 @@ public class Client {
 
 		ArrayList<Rule> rules = null;
 		try {
-			parser.parse(content);
+			rules = parser.parse(content);
 		} catch (ParserException e) {
 			System.out.println(e.getMessage());
 			System.exit(1);

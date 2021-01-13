@@ -19,6 +19,8 @@ public class Rule {
 	
 	public static int ANY = -1;
 	
+	public static int NUM_OF_FIELD = 8;
+	
 	/**
 	 * 
 	 * @param sourceIp
@@ -122,6 +124,46 @@ public class Rule {
 	 */
 	public Protocol getProtocol() {
 		return protocol;
+	}
+	
+	public void setSourceIp(String sourceIp) {
+		this.sourceIp = sourceIp;
+	}
+
+	public void setDestinationIp(String destinationIp) {
+		this.destinationIp = destinationIp;
+	}
+
+	public void setSource(IpRange source) {
+		this.source = source;
+	}
+
+	public void setDestination(IpRange destination) {
+		this.destination = destination;
+	}
+
+	public void setSourcePort(int sourcePort) {
+		this.sourcePort = sourcePort;
+	}
+
+	public void setDestinationPort(int destinationPort) {
+		this.destinationPort = destinationPort;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
+
+	public void setProtocol(Protocol protocol) {
+		this.protocol = protocol;
 	}
 	
 	/**
