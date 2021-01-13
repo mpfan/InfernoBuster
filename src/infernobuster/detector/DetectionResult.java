@@ -29,4 +29,16 @@ public class DetectionResult {
 	public HashMap<Anomaly, ArrayList<Rule>> getResult() {
 		return result;
 	}
+	
+	public Anomaly getTypeOfAnomaly(Rule rule) {
+		for (HashMap.Entry<Anomaly, ArrayList<Rule>> entry : result.entrySet()) {
+			for(Rule r: entry.getValue()) {
+				if(r.getId() == rule.getId()) {
+					return entry.getKey();
+				}
+			}
+        }
+		
+		return null;
+	}
 }

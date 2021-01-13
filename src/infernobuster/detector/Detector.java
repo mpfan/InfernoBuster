@@ -11,10 +11,10 @@ public class Detector {
 	// Algorithm 
 	public DetectionResult detect(ArrayList<Rule> rules) {
 		HashMap<Anomaly, ArrayList<Rule>> result = new HashMap<Anomaly, ArrayList<Rule>>();
-		
+
 		for(int i = 0; i < rules.size(); i++) {
 			for(int j = i + 1; j < rules.size(); j++) {
-				if(i == j || rules.get(i).compareProtocol(rules.get(j).getProtocol()) || rules.get(i).getDirection() != rules.get(j).getDirection()) continue;
+				if(i == j) continue;
 				
 				Anomaly anomaly = null;
 				ArrayList<Rule> rList = null;

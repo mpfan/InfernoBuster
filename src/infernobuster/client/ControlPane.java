@@ -1,6 +1,7 @@
 package infernobuster.client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,6 +33,7 @@ public class ControlPane extends JPanel {
 	public ControlPane() {
 		setPreferredSize(new Dimension(1000,600));
 		setLayout(new BorderLayout());
+		setBackground(Color.WHITE);
 		
 		table = new Table();
 		
@@ -46,6 +48,8 @@ public class ControlPane extends JPanel {
 		});
 		
 		JPanel buttonPanel = new JPanel();
+		buttonPanel.setBackground(Color.WHITE);
+		
 		button.setPreferredSize(new Dimension(130,30));
 		
 		buttonPanel.add(button);
@@ -86,11 +90,7 @@ public class ControlPane extends JPanel {
     			System.out.println(e.getMessage());
     			System.exit(1);
     		}
-    		
-    		Model model = table.getModel();
-    		for(Rule r: rules) {
-    			model.add(r);
-    		}
+    		table.getModel().setRules(rules);
     		
         } else {
             // user changed their mind
