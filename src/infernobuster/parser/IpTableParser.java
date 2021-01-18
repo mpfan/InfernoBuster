@@ -6,6 +6,7 @@ public class IpTableParser extends Parser{
 	public IpTableParser() {}
 
 	public ArrayList<Rule> parse(ArrayList<String> content) throws ParserException {
+//		try {
 		ArrayList<Rule> rules = new ArrayList<Rule>();
 		
 		int priority = 0;
@@ -94,6 +95,10 @@ public class IpTableParser extends Parser{
 		}
 		
 		return rules;
+//		} catch (Exception e){
+//			System.err.println("Caught IOException: " + e.getMessage());
+//			return null;
+//		}
 	}
 
 	private String find(String[] tokens, String token) {

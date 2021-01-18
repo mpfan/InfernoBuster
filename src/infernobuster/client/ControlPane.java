@@ -12,9 +12,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 
 import infernobuster.detector.Detector;
 import infernobuster.parser.Action;
@@ -30,33 +29,48 @@ public class ControlPane extends JPanel {
 	private static final long serialVersionUID = 1702526798477578409L;
 	
 	Table table;
+	FWType fwType;
+	
 	public ControlPane() {
-		setPreferredSize(new Dimension(1000,600));
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
 		
-		table = new Table();
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("Menu");
 		
-		add(table, BorderLayout.WEST);
-		
-		JButton button = new JButton("Load");
-		
-		button.addActionListener(new ActionListener() {
+		JMenuItem open = new JMenuItem("Open File..");
+		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				openFile();
+				selectType();
+				if (fwType != null) {
+					openFile();
+				}
 			}
 		});
 		
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setBackground(Color.WHITE);
+		JMenuItem export = new JMenuItem("Export As");
+		open.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectType();
+				if (fwType != null) {
+					exportFile();
+				}
+			}
+		});
 		
-		button.setPreferredSize(new Dimension(130,30));
+		menu.add(open);
+		menu.add(export);
+		menuBar.add(menu);
+		add(menuBar, BorderLayout.NORTH);
 		
-		buttonPanel.add(button);
-		
-		add(buttonPanel, BorderLayout.CENTER);
+		table = new Table();
+		add(table, BorderLayout.WEST);
+
 	}
 	
+	/**
+	 * 
+	 */
 	private void openFile() {
 		JFileChooser chooser = new JFileChooser();
         // optionally set chooser options ...
@@ -81,14 +95,19 @@ public class ControlPane extends JPanel {
     			System.exit(1);
     		} 
 
-    		Parser parser = new IpTableParser();;
+            Parser parser = null;
+            if (fwType == FWType.IPTABLES) {
+        		parser = new IpTableParser();
+            } else if (fwType == FWType.UFW) {
+        		parser = new UFWParser();
+            }
 
     		ArrayList<Rule> rules = null;
     		try {
     			rules = parser.parse(content);
     		} catch (ParserException e) {
+    			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     			System.out.println(e.getMessage());
-    			System.exit(1);
     		}
     		table.getModel().setRules(rules);
     		
@@ -96,4 +115,36 @@ public class ControlPane extends JPanel {
             // user changed their mind
         }
 	}
+	
+	/**
+	 *
+	 */
+	private void exportFile() {
+		JFileChooser chooser = new JFileChooser();
+        // optionally set chooser options ...
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        	// To be done
+        } else {
+            // user changed their mind
+        }
+	}
+
+	/**
+	 * 
+	 */
+	private void selectType() {
+		Object[] possibilities = {"UFW", "IPTables"};
+		String s = (String)JOptionPane.showInputDialog(
+		                    new JFrame(), "Please select a firewall type:",
+		                    "FireWall Selection",
+		                    JOptionPane.PLAIN_MESSAGE,
+		                    null, possibilities,
+		                    "UFW");	
+		if (s != null) {
+			fwType = FWType.fromString(s);
+		} else {
+			fwType = null;
+		}
+	}
+	
 }
