@@ -141,11 +141,10 @@ public class ControlPane extends JPanel {
     		ArrayList<Rule> rules = null;
     		try {
     			rules = parser.parse(content);
-    		} catch (ParserException e) {
-    			JOptionPane.showMessageDialog(table, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    			System.out.println(e.getMessage());
+        		table.getModel().setRules(rules);
+    		} catch (Exception e) {
+    			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     		}
-    		table.getModel().setRules(rules);
     		
         } else {
             // user changed their mind
