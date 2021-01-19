@@ -49,7 +49,7 @@ public class ControlPane extends JPanel {
 		});
 		
 		JMenuItem export = new JMenuItem("Export As");
-		open.addActionListener(new ActionListener() {
+		export.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectType();
 				if (fwType != null) {
@@ -105,11 +105,10 @@ public class ControlPane extends JPanel {
     		ArrayList<Rule> rules = null;
     		try {
     			rules = parser.parse(content);
-    		} catch (ParserException e) {
+        		table.getModel().setRules(rules);
+    		} catch (Exception e) {
     			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    			System.out.println(e.getMessage());
     		}
-    		table.getModel().setRules(rules);
     		
         } else {
             // user changed their mind
