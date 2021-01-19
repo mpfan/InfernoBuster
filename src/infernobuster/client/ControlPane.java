@@ -2,7 +2,6 @@ package infernobuster.client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,13 +17,9 @@ import javax.swing.*;
 
 
 import infernobuster.detector.Anomaly;
-import infernobuster.detector.Detector;
-import infernobuster.parser.Action;
-import infernobuster.parser.Direction;
 import infernobuster.parser.IpTableParser;
 import infernobuster.parser.Parser;
 import infernobuster.parser.ParserException;
-import infernobuster.parser.Protocol;
 import infernobuster.parser.Rule;
 import infernobuster.parser.UFWParser;
 
@@ -33,7 +28,6 @@ public class ControlPane extends JPanel {
 	
 	Table table;
 	HashMap<Anomaly,JLabel> labels;
-	FWType fwType;
 	
 	public ControlPane() {
 		setLayout(new BorderLayout());
@@ -45,9 +39,9 @@ public class ControlPane extends JPanel {
 		JMenuItem open = new JMenuItem("Open File..");
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				selectType();
-				if (fwType != null) {
-					openFile();
+				FWType type = selectType();
+				if (type != null) {
+					openFile(type);
 				}
 			}
 		});
@@ -81,17 +75,14 @@ public class ControlPane extends JPanel {
 		toolPanel.add(filterPanel, BorderLayout.WEST);
 		toolPanel.add(statsPanel, BorderLayout.CENTER);
 		
-		add(toolPanel, BorderLayout.NORTH);
-		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBackground(Color.WHITE);
 		
-		button.setPreferredSize(new Dimension(130,30));
 		JMenuItem export = new JMenuItem("Export As");
-		open.addActionListener(new ActionListener() {
+		export.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				selectType();
-				if (fwType != null) {
+				FWType type = selectType();
+				if (type != null) {
 					exportFile();
 				}
 			}
@@ -100,20 +91,26 @@ public class ControlPane extends JPanel {
 		menu.add(open);
 		menu.add(export);
 		menuBar.add(menu);
-		add(menuBar, BorderLayout.NORTH);
+		
 		
 		table = new Table();
-		add(table, BorderLayout.WEST);
-
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		add(menuBar, BorderLayout.NORTH);
+		add(panel, BorderLayout.CENTER);
+		
+		panel.add(table, BorderLayout.WEST);
+		panel.add(toolPanel, BorderLayout.NORTH);
 	}
 	
 	/**
 	 * 
 	 */
-	private void openFile() {
+	private void openFile(FWType type) {
 		JFileChooser chooser = new JFileChooser();
         // optionally set chooser options ...
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
         	File file = chooser.getSelectedFile();
         	
         	BufferedReader br;
@@ -135,9 +132,9 @@ public class ControlPane extends JPanel {
     		} 
 
             Parser parser = null;
-            if (fwType == FWType.IPTABLES) {
+            if (type == FWType.IPTABLES) {
         		parser = new IpTableParser();
-            } else if (fwType == FWType.UFW) {
+            } else if (type == FWType.UFW) {
         		parser = new UFWParser();
             }
 
@@ -145,7 +142,7 @@ public class ControlPane extends JPanel {
     		try {
     			rules = parser.parse(content);
     		} catch (ParserException e) {
-    			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    			JOptionPane.showMessageDialog(table, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     			System.out.println(e.getMessage());
     		}
     		table.getModel().setRules(rules);
@@ -185,19 +182,20 @@ public class ControlPane extends JPanel {
 	/**
 	 * 
 	 */
-	private void selectType() {
+	private FWType selectType() {
 		Object[] possibilities = {"UFW", "IPTables"};
 		String s = (String)JOptionPane.showInputDialog(
-		                    new JFrame(), "Please select a firewall type:",
+		                    this, "Please select a firewall type:",
 		                    "FireWall Selection",
 		                    JOptionPane.PLAIN_MESSAGE,
 		                    null, possibilities,
 		                    "UFW");	
+		
 		if (s != null) {
-			fwType = FWType.fromString(s);
-		} else {
-			fwType = null;
-		}
+			return FWType.fromString(s);
+		} 
+		
+		return null;
 	}
 	
 }
