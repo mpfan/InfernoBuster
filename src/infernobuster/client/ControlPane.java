@@ -2,7 +2,7 @@ package infernobuster.client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -11,17 +11,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.*;
 
 
-import infernobuster.detector.Detector;
-import infernobuster.parser.Action;
-import infernobuster.parser.Direction;
+import infernobuster.detector.Anomaly;
 import infernobuster.parser.IpTableParser;
 import infernobuster.parser.Parser;
 import infernobuster.parser.ParserException;
-import infernobuster.parser.Protocol;
 import infernobuster.parser.Rule;
 import infernobuster.parser.UFWParser;
 
@@ -29,7 +27,7 @@ public class ControlPane extends JPanel {
 	private static final long serialVersionUID = 1702526798477578409L;
 	
 	Table table;
-	FWType fwType;
+	HashMap<Anomaly,JLabel> labels;
 	
 	public ControlPane() {
 		setLayout(new BorderLayout());
@@ -41,18 +39,50 @@ public class ControlPane extends JPanel {
 		JMenuItem open = new JMenuItem("Open File..");
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				selectType();
-				if (fwType != null) {
-					openFile();
+				FWType type = selectType();
+				if (type != null) {
+					openFile(type);
 				}
 			}
 		});
 		
+		JPanel toolPanel = new JPanel();
+		toolPanel.setLayout(new BorderLayout());
+		
+		JPanel filterPanel = new JPanel();
+		filterPanel.setLayout(new GridLayout(2,4));
+		filterPanel.setBorder(BorderFactory.createTitledBorder("Filters"));
+		
+		for (Anomaly anomaly : Anomaly.values()) {
+            JCheckBox checkBox = new JCheckBox(anomaly.toString());
+            
+            filterPanel.add(checkBox);
+            checkBox.addActionListener(new CheckBoxListener());
+        }
+		
+		JPanel statsPanel = new JPanel();
+		statsPanel.setLayout(new GridLayout(4,2));
+		statsPanel.setBorder(BorderFactory.createTitledBorder("Statistics"));
+		
+		labels = new HashMap<Anomaly,JLabel>();
+		for (Anomaly anomaly : Anomaly.values()) {
+            JLabel label = new JLabel(anomaly.toString() + ": 0");
+            
+            statsPanel.add(label);
+            labels.put(anomaly, label);
+        }
+		
+		toolPanel.add(filterPanel, BorderLayout.WEST);
+		toolPanel.add(statsPanel, BorderLayout.CENTER);
+		
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setBackground(Color.WHITE);
+		
 		JMenuItem export = new JMenuItem("Export As");
 		export.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				selectType();
-				if (fwType != null) {
+				FWType type = selectType();
+				if (type != null) {
 					exportFile();
 				}
 			}
@@ -61,20 +91,26 @@ public class ControlPane extends JPanel {
 		menu.add(open);
 		menu.add(export);
 		menuBar.add(menu);
-		add(menuBar, BorderLayout.NORTH);
+		
 		
 		table = new Table();
-		add(table, BorderLayout.WEST);
-
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		add(menuBar, BorderLayout.NORTH);
+		add(panel, BorderLayout.CENTER);
+		
+		panel.add(table, BorderLayout.WEST);
+		panel.add(toolPanel, BorderLayout.NORTH);
 	}
 	
 	/**
 	 * 
 	 */
-	private void openFile() {
+	private void openFile(FWType type) {
 		JFileChooser chooser = new JFileChooser();
         // optionally set chooser options ...
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
         	File file = chooser.getSelectedFile();
         	
         	BufferedReader br;
@@ -96,9 +132,9 @@ public class ControlPane extends JPanel {
     		} 
 
             Parser parser = null;
-            if (fwType == FWType.IPTABLES) {
+            if (type == FWType.IPTABLES) {
         		parser = new IpTableParser();
-            } else if (fwType == FWType.UFW) {
+            } else if (type == FWType.UFW) {
         		parser = new UFWParser();
             }
 
@@ -115,6 +151,20 @@ public class ControlPane extends JPanel {
         }
 	}
 	
+	private class CheckBoxListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JCheckBox checkBox = (JCheckBox) e.getSource();
+			
+			if(checkBox.isSelected()) {
+				table.getModel().addFilter(Anomaly.fromString(checkBox.getText()));
+			} else {
+				table.getModel().removeFilter(Anomaly.fromString(checkBox.getText()));
+			}
+			
+			table.setFilter();
+		}
+		
+	}
 	/**
 	 *
 	 */
@@ -131,19 +181,20 @@ public class ControlPane extends JPanel {
 	/**
 	 * 
 	 */
-	private void selectType() {
+	private FWType selectType() {
 		Object[] possibilities = {"UFW", "IPTables"};
 		String s = (String)JOptionPane.showInputDialog(
-		                    new JFrame(), "Please select a firewall type:",
+		                    this, "Please select a firewall type:",
 		                    "FireWall Selection",
 		                    JOptionPane.PLAIN_MESSAGE,
 		                    null, possibilities,
 		                    "UFW");	
+		
 		if (s != null) {
-			fwType = FWType.fromString(s);
-		} else {
-			fwType = null;
-		}
+			return FWType.fromString(s);
+		} 
+		
+		return null;
 	}
 	
 }

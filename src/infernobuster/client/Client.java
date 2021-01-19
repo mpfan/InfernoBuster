@@ -28,7 +28,9 @@ import infernobuster.parser.UFWParser;
 
 public class Client {
 	public static void main(String[] args) {
-		File file = new File(args[0]); 
+		File file = new File(".");
+		System.out.println(file.getAbsolutePath());
+		System.out.println(file.exists());
 		  
 		BufferedReader br;
 		ArrayList<String> content = new ArrayList<String>();

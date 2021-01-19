@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -33,12 +34,45 @@ public class Model extends AbstractTableModel {
 	public static int NUM_OF_COL = 8;
 	
 	ArrayList<Rule> rules;
+	ArrayList<Anomaly> filter;
 	Detector detector;
 	DetectionResult result;
 	
 	public Model(ArrayList<Rule> rules) {
 		this.rules = rules;
+		filter = new ArrayList<Anomaly>();
 		detector = new Detector();
+	}
+	
+	public void addFilter(Anomaly anomaly) {
+		filter.add(anomaly);
+	}
+	
+	public void removeFilter(Anomaly anomaly) {
+		for(Anomaly a: filter) {
+			if(a.toString().equalsIgnoreCase(anomaly.toString())) {
+				filter.remove(a);
+				break;
+			}
+		}
+	}
+	
+	public RowFilter<Model,Integer> getFilter() {
+		RowFilter<Model,Integer> anomalyFilter = new RowFilter<Model,Integer>() {
+			public boolean include(Entry<? extends Model, ? extends Integer> entry) {
+			    Rule rule = rules.get(entry.getIdentifier());
+			    
+			    if(filter.isEmpty()) {
+			    	return true;
+			    } else if (filter.contains(result.getTypeOfAnomaly(rule))) {
+				    return true;
+				}
+			    
+			    return false;
+			 }
+		};
+		
+		return anomalyFilter;
 	}
 	
 	public int getRowCount() {
@@ -186,7 +220,7 @@ public class Model extends AbstractTableModel {
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 	        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 	        
-	        Rule rule = rules.get(row);
+	        Rule rule = rules.get(table.convertRowIndexToModel(row));
 	        Anomaly anomaly = result.getTypeOfAnomaly(rule);
 	        
 	        c.setBackground(getColor(anomaly));
