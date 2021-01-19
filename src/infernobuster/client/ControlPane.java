@@ -3,6 +3,7 @@ package infernobuster.client;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -11,11 +12,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
+import infernobuster.detector.Anomaly;
 import infernobuster.detector.Detector;
 import infernobuster.parser.Action;
 import infernobuster.parser.Direction;
@@ -30,6 +37,8 @@ public class ControlPane extends JPanel {
 	private static final long serialVersionUID = 1702526798477578409L;
 	
 	Table table;
+	HashMap<Anomaly,JLabel> labels;
+	
 	public ControlPane() {
 		setPreferredSize(new Dimension(1000,600));
 		setLayout(new BorderLayout());
@@ -46,6 +55,37 @@ public class ControlPane extends JPanel {
 				openFile();
 			}
 		});
+		
+		JPanel toolPanel = new JPanel();
+		toolPanel.setLayout(new BorderLayout());
+		
+		JPanel filterPanel = new JPanel();
+		filterPanel.setLayout(new GridLayout(2,4));
+		filterPanel.setBorder(BorderFactory.createTitledBorder("Filters"));
+		
+		for (Anomaly anomaly : Anomaly.values()) {
+            JCheckBox checkBox = new JCheckBox(anomaly.toString());
+            
+            filterPanel.add(checkBox);
+            checkBox.addActionListener(new CheckBoxListener());
+        }
+		
+		JPanel statsPanel = new JPanel();
+		statsPanel.setLayout(new GridLayout(4,2));
+		statsPanel.setBorder(BorderFactory.createTitledBorder("Statistics"));
+		
+		labels = new HashMap<Anomaly,JLabel>();
+		for (Anomaly anomaly : Anomaly.values()) {
+            JLabel label = new JLabel(anomaly.toString() + ": 0");
+            
+            statsPanel.add(label);
+            labels.put(anomaly, label);
+        }
+		
+		toolPanel.add(filterPanel, BorderLayout.WEST);
+		toolPanel.add(statsPanel, BorderLayout.CENTER);
+		
+		add(toolPanel, BorderLayout.NORTH);
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBackground(Color.WHITE);
@@ -95,5 +135,20 @@ public class ControlPane extends JPanel {
         } else {
             // user changed their mind
         }
+	}
+	
+	private class CheckBoxListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JCheckBox checkBox = (JCheckBox) e.getSource();
+			
+			if(checkBox.isSelected()) {
+				table.getModel().addFilter(Anomaly.fromString(checkBox.getText()));
+			} else {
+				table.getModel().removeFilter(Anomaly.fromString(checkBox.getText()));
+			}
+			
+			table.setFilter();
+		}
+		
 	}
 }

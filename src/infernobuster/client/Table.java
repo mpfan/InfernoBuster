@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane; 
-import javax.swing.JTable; 
+import javax.swing.JTable;
+import javax.swing.table.TableRowSorter;
 
 import infernobuster.parser.Rule;
 
@@ -14,14 +15,19 @@ public class Table extends JPanel{
 	private static final long serialVersionUID = 8804243421849192593L;
 	
 	JTable table; 
+	TableRowSorter<Model> sorter;
+	Model model;
 	
 	public Table() {
 		setBackground(Color.WHITE);
 		
-		Model model = new Model(new ArrayList<Rule>()); 
+		model = new Model(new ArrayList<Rule>()); 
 		
 		table = new JTable(model);
 		table.setBackground(Color.WHITE);
+		sorter = new TableRowSorter<Model>(model);
+		table.setRowSorter(sorter);
+		sorter.setRowFilter(model.getFilter());
 		
 		for (int i = 0; i < Model.NUM_OF_COL; i++) {
 		     table.getColumnModel().getColumn(i).setCellRenderer(model.getCustomCellRenderer());
@@ -32,6 +38,10 @@ public class Table extends JPanel{
 		scrollPane.setBackground(Color.WHITE);
 		
 		add(scrollPane);
+	}
+	
+	public void setFilter() {
+		sorter.setRowFilter(model.getFilter());
 	}
 
 	public Model getModel() {
