@@ -41,4 +41,18 @@ public class DetectionResult {
 		
 		return null;
 	}
+	
+	public ArrayList<Anomaly> getTypesOfAnomaly(Rule rule) {
+		ArrayList<Anomaly> anomalies = new ArrayList<Anomaly>();
+		
+		for (HashMap.Entry<Anomaly, ArrayList<Rule>> entry : result.entrySet()) {
+			for(Rule r: entry.getValue()) {
+				if(r.getId() == rule.getId()) {
+					anomalies.add(entry.getKey());
+				}
+			}
+        }
+		
+		return anomalies;
+	}
 }

@@ -2,15 +2,18 @@ package infernobuster.client;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import infernobuster.detector.Anomaly;
 import infernobuster.detector.DetectionResult;
@@ -31,7 +34,8 @@ public class Model extends AbstractTableModel {
 	public static int DIRECTION_INDEX = 5;
 	public static int PROTOCOL_INDEX = 6;
 	public static int ACTION_INDEX = 7;
-	public static int NUM_OF_COL = 8;
+	public static int BADGE_INDEX = 8;
+	public static int NUM_OF_COL = 9;
 	
 	ArrayList<Rule> rules;
 	ArrayList<Anomaly> filter;
@@ -80,7 +84,7 @@ public class Model extends AbstractTableModel {
 	}
 
 	public int getColumnCount() {
-		return Rule.NUM_OF_FIELD;
+		return NUM_OF_COL;
 	}
 
 	public String getColumnName(int columnIndex) {
@@ -100,16 +104,18 @@ public class Model extends AbstractTableModel {
 			return "Protocol";
 		} else if(columnIndex == PRIORITY_INDEX) {
 			return "Priority";
+		} else if(columnIndex == BADGE_INDEX) {
+			return "Anomalies";
 		} 
 		return null;
 	}
 
 	public Class<?> getColumnClass(int columnIndex) {
-		return String.class;
+		return columnIndex == BADGE_INDEX ? ArrayList.class : String.class;
 	}
 
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return true;
+		return columnIndex != BADGE_INDEX;
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
@@ -131,6 +137,8 @@ public class Model extends AbstractTableModel {
 			return rule.getProtocol();
 		} else if(columnIndex == PRIORITY_INDEX) {
 			return rule.getPriority();
+		} else if(columnIndex == BADGE_INDEX){
+			return result.getTypesOfAnomaly(rule);
 		} else {
 			return null;
 		}
@@ -184,48 +192,4 @@ public class Model extends AbstractTableModel {
         result = detector.detect(rules);
         fireTableRowsInserted(rules.size() - 1, rules.size() - 1);
     }
-	
-	private Color getColor(Anomaly anomaly) {
-		if(anomaly == null) return Color.WHITE;
-		
-		switch(anomaly) {
-			case REDUNDANCY:
-				return Color.BLUE;
-			case INCONSISTENCY:
-				return Color.CYAN;
-			case SHADOWING:
-				return Color.DARK_GRAY;
-			case DOWN_REDUNDANT:
-				return Color.GRAY;
-			case GENERALIZIATION:
-				return Color.GREEN;
-			case UP_REDUNDANT:
-				return Color.LIGHT_GRAY;
-			case PARTIAL_REDUNDANCY:
-				return Color.MAGENTA;
-			case CORRELATION:
-				return Color.ORANGE;
-			default:
-				return Color.WHITE;
-		}
-	}
-	
-	public CustomCellRenderer getCustomCellRenderer() {
-		return new CustomCellRenderer();
-	}
-	
-	private class CustomCellRenderer extends DefaultTableCellRenderer {
-		private static final long serialVersionUID = 7694050302588028071L;
-
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-	        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-	        
-	        Rule rule = rules.get(table.convertRowIndexToModel(row));
-	        Anomaly anomaly = result.getTypeOfAnomaly(rule);
-	        
-	        c.setBackground(getColor(anomaly));
-	        
-	        return c;
-	    }
-	}
 }

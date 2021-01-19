@@ -29,9 +29,8 @@ public class Table extends JPanel{
 		table.setRowSorter(sorter);
 		sorter.setRowFilter(model.getFilter());
 		
-		for (int i = 0; i < Model.NUM_OF_COL; i++) {
-		     table.getColumnModel().getColumn(i).setCellRenderer(model.getCustomCellRenderer());
-		 }
+		// The badges will be custom rendered
+		table.getColumnModel().getColumn(Model.BADGE_INDEX).setCellRenderer(new Badge());
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(800,600));
