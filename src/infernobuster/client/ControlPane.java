@@ -2,6 +2,7 @@ package infernobuster.client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,8 @@ public class ControlPane extends JPanel implements RuleListener {
 	Table table;
 	HashMap<Anomaly,JLabel> labels;
 	HashMap<Anomaly,JCheckBox> filters;
+	JButton add;
+	JButton remove;
 	
 	public ControlPane() {
 		setLayout(new BorderLayout());
@@ -77,8 +80,38 @@ public class ControlPane extends JPanel implements RuleListener {
             labels.put(anomaly, label);
         }
 		
+		JPanel ruleControlPanel = new JPanel();
+		remove = new JButton("Remove");
+		remove.setEnabled(false);
+		remove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				table.getModel().remove(table.getSelectedRow());
+			}
+		});
+		
+		add = new JButton("Add");
+		add.setEnabled(false);
+		
+		add.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RuleInputDialog dialog = new RuleInputDialog();
+				
+				dialog.showDialog();
+				
+				Rule rule = dialog.getRule();
+				
+				table.getModel().add(rule);
+			}
+		});
+		
+		ruleControlPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+		ruleControlPanel.setBorder(BorderFactory.createTitledBorder("Rule Control"));
+		ruleControlPanel.add(add);
+		ruleControlPanel.add(remove);
+		
 		toolPanel.add(filterPanel, BorderLayout.WEST);
 		toolPanel.add(statsPanel, BorderLayout.CENTER);
+		toolPanel.add(ruleControlPanel, BorderLayout.SOUTH);
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBackground(Color.WHITE);
@@ -153,6 +186,7 @@ public class ControlPane extends JPanel implements RuleListener {
     			System.out.println(e.getMessage());
     		}
     		table.getModel().setRules(rules);
+    		add.setEnabled(true);
     		
         } else {
             // user changed their mind
@@ -221,6 +255,8 @@ public class ControlPane extends JPanel implements RuleListener {
 		for (HashMap.Entry<Anomaly, JCheckBox> entry : filters.entrySet()) {
 			entry.getValue().setEnabled(stats.getOrDefault(entry.getKey(), 0) > 0);
         }
+		
+		remove.setEnabled(model.getRules().size() > 0);
 	}
 	
 }

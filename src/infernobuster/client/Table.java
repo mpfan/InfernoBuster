@@ -46,4 +46,8 @@ public class Table extends JPanel{
 	public Model getModel() {
 		return (Model) table.getModel();
 	}
+	
+	public int getSelectedRow() {
+		return table.getSelectedRow();
+	}
 }

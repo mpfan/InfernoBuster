@@ -205,10 +205,18 @@ public class Model extends AbstractTableModel {
 	}
 	
 	public void add(Rule rule) {
-        rules.add(rule);
+		rules.add(rule);
         result = detector.detect(rules);
         fireTableRowsInserted(rules.size() - 1, rules.size() - 1);
         notifyAnomalyDetected();
         notifyRuleModified();
     }
+	
+	public void remove(int i) {
+		rules.remove(i);
+		result = detector.detect(rules);
+		fireTableDataChanged();
+		notifyAnomalyDetected();
+        notifyRuleModified();
+	}
 }
