@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,10 +32,12 @@ public class ControlPane extends JPanel implements RuleListener {
 	private Table table;
 	private HashMap<Anomaly,JLabel> labels;
 	private HashMap<Anomaly,JCheckBox> filters;
+	private JMenuItem export;
 	private JButton add;
 	private JButton remove;
 	private JButton focus;
 	private JButton unfocus;
+	private Parser parser;
 	
 	public ControlPane() {
 		setLayout(new BorderLayout());
@@ -140,15 +143,13 @@ public class ControlPane extends JPanel implements RuleListener {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBackground(Color.WHITE);
 		
-		JMenuItem export = new JMenuItem("Export As");
+		export = new JMenuItem("Export As");
 		export.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FWType type = selectType();
-				if (type != null) {
 					exportFile();
-				}
 			}
 		});
+		export.setEnabled(false);
 		
 		menu.add(open);
 		menu.add(export);
@@ -195,7 +196,6 @@ public class ControlPane extends JPanel implements RuleListener {
     			System.exit(1);
     		} 
 
-            Parser parser = null;
             if (type == FWType.IPTABLES) {
         		parser = new IpTableParser();
             } else if (type == FWType.UFW) {
@@ -212,6 +212,7 @@ public class ControlPane extends JPanel implements RuleListener {
     		table.getModel().setRules(rules);
     		add.setEnabled(true);
     		focus.setEnabled(true);
+    		export.setEnabled(true);
     		
         } else {
             // user changed their mind
@@ -238,8 +239,16 @@ public class ControlPane extends JPanel implements RuleListener {
 	private void exportFile() {
 		JFileChooser chooser = new JFileChooser();
         // optionally set chooser options ...
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-        	// To be done
+        if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+        	FileWriter fw;
+			try {
+				fw = new FileWriter(chooser.getSelectedFile());
+				fw.write(parser.export(table.getModel().getRules()));
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+            
         } else {
             // user changed their mind
         }

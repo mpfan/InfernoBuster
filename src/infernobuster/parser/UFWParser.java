@@ -130,4 +130,10 @@ public class UFWParser extends Parser {
 //		}
 
 	}
+
+	@Override
+	public String export(ArrayList<Rule> rules) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
