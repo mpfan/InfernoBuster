@@ -14,9 +14,9 @@ import infernobuster.parser.Rule;
 public class Table extends JPanel{
 	private static final long serialVersionUID = 8804243421849192593L;
 	
-	JTable table; 
-	TableRowSorter<Model> sorter;
-	Model model;
+	private JTable table; 
+	private TableRowSorter<Model> sorter;
+	private Model model;
 	
 	public Table() {
 		setBackground(Color.WHITE);

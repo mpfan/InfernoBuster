@@ -18,21 +18,23 @@ import javax.swing.*;
 
 
 import infernobuster.detector.Anomaly;
+import infernobuster.mvc.RuleListener;
 import infernobuster.parser.IpTableParser;
 import infernobuster.parser.Parser;
 import infernobuster.parser.ParserException;
 import infernobuster.parser.Rule;
 import infernobuster.parser.UFWParser;
-import mvc.RuleListener;
 
 public class ControlPane extends JPanel implements RuleListener {
 	private static final long serialVersionUID = 1702526798477578409L;
 	
-	Table table;
-	HashMap<Anomaly,JLabel> labels;
-	HashMap<Anomaly,JCheckBox> filters;
-	JButton add;
-	JButton remove;
+	private Table table;
+	private HashMap<Anomaly,JLabel> labels;
+	private HashMap<Anomaly,JCheckBox> filters;
+	private JButton add;
+	private JButton remove;
+	private JButton focus;
+	private JButton unfocus;
 	
 	public ControlPane() {
 		setLayout(new BorderLayout());
@@ -104,10 +106,32 @@ public class ControlPane extends JPanel implements RuleListener {
 			}
 		});
 		
+		focus = new JButton("Focus");
+		focus.setEnabled(false);
+		focus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				table.getModel().setFocusedRule(table.getSelectedRow());
+				table.setFilter();
+				unfocus.setEnabled(true);
+			}
+		});
+		
+		unfocus = new JButton("Unfocus");
+		unfocus.setEnabled(false);
+		unfocus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				table.getModel().setFocusedRule(-1);
+				table.setFilter();
+				unfocus.setEnabled(false);
+			}
+		});
+		
 		ruleControlPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 		ruleControlPanel.setBorder(BorderFactory.createTitledBorder("Rule Control"));
 		ruleControlPanel.add(add);
 		ruleControlPanel.add(remove);
+		ruleControlPanel.add(focus);
+		ruleControlPanel.add(unfocus);
 		
 		toolPanel.add(filterPanel, BorderLayout.WEST);
 		toolPanel.add(statsPanel, BorderLayout.CENTER);
@@ -187,6 +211,7 @@ public class ControlPane extends JPanel implements RuleListener {
     		}
     		table.getModel().setRules(rules);
     		add.setEnabled(true);
+    		focus.setEnabled(true);
     		
         } else {
             // user changed their mind
@@ -257,6 +282,12 @@ public class ControlPane extends JPanel implements RuleListener {
         }
 		
 		remove.setEnabled(model.getRules().size() > 0);
+	}
+
+	@Override
+	public void ruleFocused(Model model) {
+		
+		
 	}
 	
 }
