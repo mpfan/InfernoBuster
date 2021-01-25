@@ -1,19 +1,10 @@
 package infernobuster.client;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.RowFilter;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 import infernobuster.detector.Anomaly;
 import infernobuster.detector.DetectionResult;
@@ -22,6 +13,7 @@ import infernobuster.parser.Action;
 import infernobuster.parser.Direction;
 import infernobuster.parser.Protocol;
 import infernobuster.parser.Rule;
+import mvc.RuleListener;
 
 public class Model extends AbstractTableModel {
 	private static final long serialVersionUID = 6655916175935685147L;
@@ -42,10 +34,33 @@ public class Model extends AbstractTableModel {
 	Detector detector;
 	DetectionResult result;
 	
+	ArrayList<RuleListener> listeners;
+	
 	public Model(ArrayList<Rule> rules) {
 		this.rules = rules;
 		filter = new ArrayList<Anomaly>();
 		detector = new Detector();
+		listeners = new ArrayList<RuleListener>();
+	}
+	
+	public void addRuleListener(RuleListener listener) {
+		listeners.add(listener);
+	}
+	
+	public void notifyAnomalyDetected() {
+		for(RuleListener listener : listeners) {
+			listener.anomalyDetected(this);
+		}
+	}
+	
+	public void notifyRuleModified() {
+		for(RuleListener listener : listeners) {
+			listener.ruleModified(this);
+		}
+	}
+	
+	public HashMap<Anomaly, Integer> getNumOfAnomalies() {
+		return result.getNumOfAnomalies();
 	}
 	
 	public void addFilter(Anomaly anomaly) {
@@ -173,8 +188,8 @@ public class Model extends AbstractTableModel {
 		
 		result = detector.detect(rules);
 		fireTableDataChanged();
+		notifyAnomalyDetected();
 	}
-	
 	
 
 	public ArrayList<Rule> getRules() {
@@ -185,11 +200,15 @@ public class Model extends AbstractTableModel {
 		this.rules = rules;
 		result = detector.detect(rules);
 		fireTableDataChanged();
+		notifyAnomalyDetected();
+		notifyRuleModified();
 	}
 	
 	public void add(Rule rule) {
         rules.add(rule);
         result = detector.detect(rules);
         fireTableRowsInserted(rules.size() - 1, rules.size() - 1);
+        notifyAnomalyDetected();
+        notifyRuleModified();
     }
 }

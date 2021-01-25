@@ -22,12 +22,14 @@ import infernobuster.parser.Parser;
 import infernobuster.parser.ParserException;
 import infernobuster.parser.Rule;
 import infernobuster.parser.UFWParser;
+import mvc.RuleListener;
 
-public class ControlPane extends JPanel {
+public class ControlPane extends JPanel implements RuleListener {
 	private static final long serialVersionUID = 1702526798477578409L;
 	
 	Table table;
 	HashMap<Anomaly,JLabel> labels;
+	HashMap<Anomaly,JCheckBox> filters;
 	
 	public ControlPane() {
 		setLayout(new BorderLayout());
@@ -53,9 +55,12 @@ public class ControlPane extends JPanel {
 		filterPanel.setLayout(new GridLayout(2,4));
 		filterPanel.setBorder(BorderFactory.createTitledBorder("Filters"));
 		
+		filters = new HashMap<Anomaly,JCheckBox>();
 		for (Anomaly anomaly : Anomaly.values()) {
             JCheckBox checkBox = new JCheckBox(anomaly.toString());
+            checkBox.setEnabled(false);
             
+            filters.put(anomaly, checkBox);
             filterPanel.add(checkBox);
             checkBox.addActionListener(new CheckBoxListener());
         }
@@ -102,6 +107,8 @@ public class ControlPane extends JPanel {
 		
 		panel.add(table, BorderLayout.WEST);
 		panel.add(toolPanel, BorderLayout.NORTH);
+		
+		table.getModel().addRuleListener(this);
 	}
 	
 	/**
@@ -141,10 +148,11 @@ public class ControlPane extends JPanel {
     		ArrayList<Rule> rules = null;
     		try {
     			rules = parser.parse(content);
-        		table.getModel().setRules(rules);
-    		} catch (Exception e) {
-    			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    		} catch (ParserException e) {
+    			JOptionPane.showMessageDialog(table, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    			System.out.println(e.getMessage());
     		}
+    		table.getModel().setRules(rules);
     		
         } else {
             // user changed their mind
@@ -195,6 +203,24 @@ public class ControlPane extends JPanel {
 		} 
 		
 		return null;
+	}
+
+	@Override
+	public void anomalyDetected(Model model) {
+		HashMap<Anomaly, Integer> stats = model.getNumOfAnomalies();
+		for (HashMap.Entry<Anomaly, JLabel> entry : labels.entrySet()) {
+			JLabel label = entry.getValue();
+			
+			label.setText(entry.getKey().toString() + ": " + stats.getOrDefault(entry.getKey(),0));
+        }
+	}
+
+	@Override
+	public void ruleModified(Model model) {
+		HashMap<Anomaly, Integer> stats = model.getNumOfAnomalies();
+		for (HashMap.Entry<Anomaly, JCheckBox> entry : filters.entrySet()) {
+			entry.getValue().setEnabled(stats.getOrDefault(entry.getKey(), 0) > 0);
+        }
 	}
 	
 }

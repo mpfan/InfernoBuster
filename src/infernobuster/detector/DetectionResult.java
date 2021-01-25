@@ -30,6 +30,16 @@ public class DetectionResult {
 		return result;
 	}
 	
+	public HashMap<Anomaly, Integer> getNumOfAnomalies() {
+		HashMap<Anomaly, Integer> stats = new HashMap<Anomaly, Integer>();
+		
+		for (HashMap.Entry<Anomaly, ArrayList<Rule>> entry : result.entrySet()) {
+			stats.put(entry.getKey(), entry.getValue().size());
+        }
+		
+		return stats;
+	}
+	
 	public Anomaly getTypeOfAnomaly(Rule rule) {
 		for (HashMap.Entry<Anomaly, ArrayList<Rule>> entry : result.entrySet()) {
 			for(Rule r: entry.getValue()) {
