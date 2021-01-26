@@ -121,7 +121,9 @@ public class RuleTest extends TestCase {
     @Test
     public void testSetSourcIP(){
         System.out.println("Testing setSourceIp");
-        //To Do
+        //String tempSourcIP = "209.143.143.1/33";
+        IpRange tempSource = null;
+        //tempSource.rule.setSourceIP("209.143.143.1/33");
         System.out.println("Test: Success");
     }
 
