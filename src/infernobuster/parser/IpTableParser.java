@@ -118,7 +118,7 @@ public class IpTableParser extends Parser{
 			String direction = rule.getDirection() == Direction.IN ? "INPUT" : "OUTPUT"; 
 			String action = rule.getAction() == Action.ALLOW ? "ACCEPT" : "DROP";
 			String line = "-A " + direction + " -s " + rule.getSourceIp() + " -d " + rule.getDestinationIp() + " -p " + 
-			rule.getProtocol().toString().toLowerCase() + " -sport "+ rule.getSourcePort() + " -dport " + rule.getDestinationPort() +
+			rule.getProtocol().toString().toLowerCase() + " --sport "+ rule.getSourcePort() + " --dport " + rule.getDestinationPort() +
 			" -j " + action;
 			
 			sb.append(line + "\n");
