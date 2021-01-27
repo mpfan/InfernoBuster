@@ -1,4 +1,4 @@
-package infernobuster.client;
+package infernobuster.view;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -9,10 +9,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import infernobuster.parser.Action;
-import infernobuster.parser.Direction;
-import infernobuster.parser.Protocol;
-import infernobuster.parser.Rule;
+import infernobuster.model.Action;
+import infernobuster.model.Direction;
+import infernobuster.model.Protocol;
+import infernobuster.model.Rule;
 
 public class RuleInputDialog extends JPanel {
 	private static final long serialVersionUID = 3196130090235874276L;

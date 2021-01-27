@@ -1,9 +1,7 @@
-package infernobuster.detector;
+package infernobuster.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import infernobuster.parser.Rule;
 
 public class DetectionResult {
 	HashMap<Anomaly, ArrayList<Rule>> result;

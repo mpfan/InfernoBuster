@@ -1,4 +1,4 @@
-package infernobuster.parser;
+package infernobuster.model;
 
 public enum Protocol {
 	TCP("TCP"), UDP("UDP"), ANY("ANY");

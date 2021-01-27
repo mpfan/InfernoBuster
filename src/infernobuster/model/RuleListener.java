@@ -1,6 +1,4 @@
-package infernobuster.mvc;
-
-import infernobuster.client.Model;
+package infernobuster.model;
 
 public interface RuleListener {
 	public void anomalyDetected(Model model);

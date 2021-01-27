@@ -1,4 +1,4 @@
-package infernobuster.parser;
+package infernobuster.model;
 
 import java.util.ArrayList;
 

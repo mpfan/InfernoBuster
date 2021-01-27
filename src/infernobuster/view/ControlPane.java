@@ -1,4 +1,4 @@
-package infernobuster.client;
+package infernobuster.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -6,29 +6,20 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
 
-
-import infernobuster.detector.Anomaly;
-import infernobuster.mvc.RuleListener;
-import infernobuster.parser.IpTableParser;
-import infernobuster.parser.Parser;
-import infernobuster.parser.ParserException;
-import infernobuster.parser.Rule;
-import infernobuster.parser.UFWParser;
+import infernobuster.controller.Controller;
+import infernobuster.model.Anomaly;
+import infernobuster.model.FWType;
+import infernobuster.model.Model;
+import infernobuster.model.RuleListener;
 
 public class ControlPane extends JPanel implements RuleListener {
 	private static final long serialVersionUID = 1702526798477578409L;
 	
+	private Model model;
 	private Table table;
 	private HashMap<Anomaly,JLabel> labels;
 	private HashMap<Anomaly,JCheckBox> filters;
@@ -37,9 +28,12 @@ public class ControlPane extends JPanel implements RuleListener {
 	private JButton remove;
 	private JButton focus;
 	private JButton unfocus;
-	private Parser parser;
 	
-	public ControlPane() {
+	private Controller controller;
+	
+	public ControlPane(Model model) {
+		this.model = model;
+		
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
 		
@@ -49,9 +43,9 @@ public class ControlPane extends JPanel implements RuleListener {
 		JMenuItem open = new JMenuItem("Open File..");
 		open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FWType type = selectType();
+				FWType type = controller.selectType();
 				if (type != null) {
-					openFile(type);
+					controller.openFile(type);
 				}
 			}
 		});
@@ -70,7 +64,11 @@ public class ControlPane extends JPanel implements RuleListener {
             
             filters.put(anomaly, checkBox);
             filterPanel.add(checkBox);
-            checkBox.addActionListener(new CheckBoxListener());
+            checkBox.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.handleCheckBox(e);
+				}
+            });
         }
 		
 		JPanel statsPanel = new JPanel();
@@ -90,7 +88,7 @@ public class ControlPane extends JPanel implements RuleListener {
 		remove.setEnabled(false);
 		remove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				table.getModel().remove(table.getSelectedRow());
+				controller.removeRule();
 			}
 		});
 		
@@ -99,13 +97,7 @@ public class ControlPane extends JPanel implements RuleListener {
 		
 		add.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RuleInputDialog dialog = new RuleInputDialog();
-				
-				dialog.showDialog();
-				
-				Rule rule = dialog.getRule();
-				
-				table.getModel().add(rule);
+				controller.addRule();
 			}
 		});
 		
@@ -113,9 +105,7 @@ public class ControlPane extends JPanel implements RuleListener {
 		focus.setEnabled(false);
 		focus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				table.getModel().setFocusedRule(table.getSelectedRow());
-				table.setFilter();
-				unfocus.setEnabled(true);
+				controller.focus();
 			}
 		});
 		
@@ -123,9 +113,7 @@ public class ControlPane extends JPanel implements RuleListener {
 		unfocus.setEnabled(false);
 		unfocus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				table.getModel().setFocusedRule(-1);
-				table.setFilter();
-				unfocus.setEnabled(false);
+				controller.unfocus();
 			}
 		});
 		
@@ -146,7 +134,7 @@ public class ControlPane extends JPanel implements RuleListener {
 		export = new JMenuItem("Export As");
 		export.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					exportFile();
+					controller.exportFile();
 			}
 		});
 		export.setEnabled(false);
@@ -156,7 +144,7 @@ public class ControlPane extends JPanel implements RuleListener {
 		menuBar.add(menu);
 		
 		
-		table = new Table();
+		table = new Table(this.model);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -166,111 +154,11 @@ public class ControlPane extends JPanel implements RuleListener {
 		panel.add(table, BorderLayout.WEST);
 		panel.add(toolPanel, BorderLayout.NORTH);
 		
-		table.getModel().addRuleListener(this);
+		model.addRuleListener(this);
 	}
 	
-	/**
-	 * 
-	 */
-	private void openFile(FWType type) {
-		JFileChooser chooser = new JFileChooser();
-        // optionally set chooser options ...
-        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-        	File file = chooser.getSelectedFile();
-        	
-        	BufferedReader br;
-    		ArrayList<String> content = new ArrayList<String>();
-            
-            try {
-    			br = new BufferedReader(new FileReader(file));
-    			
-    			String line;
-    			while ((line = br.readLine()) != null) {
-    				content.add(line);
-    			}
-    		} catch (FileNotFoundException e) {
-    			System.out.println("File not found");
-    			System.exit(1);
-    		} catch (IOException e) {
-    			System.out.println("Error reading file");
-    			System.exit(1);
-    		} 
-
-            if (type == FWType.IPTABLES) {
-        		parser = new IpTableParser();
-            } else if (type == FWType.UFW) {
-        		parser = new UFWParser();
-            }
-
-    		ArrayList<Rule> rules = null;
-    		try {
-    			rules = parser.parse(content);
-    		} catch (ParserException e) {
-    			JOptionPane.showMessageDialog(table, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    			System.out.println(e.getMessage());
-    		}
-    		table.getModel().setRules(rules);
-    		add.setEnabled(true);
-    		focus.setEnabled(true);
-    		export.setEnabled(true);
-    		
-        } else {
-            // user changed their mind
-        }
-	}
-	
-	private class CheckBoxListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			JCheckBox checkBox = (JCheckBox) e.getSource();
-			
-			if(checkBox.isSelected()) {
-				table.getModel().addFilter(Anomaly.fromString(checkBox.getText()));
-			} else {
-				table.getModel().removeFilter(Anomaly.fromString(checkBox.getText()));
-			}
-			
-			table.setFilter();
-		}
-		
-	}
-	/**
-	 *
-	 */
-	private void exportFile() {
-		JFileChooser chooser = new JFileChooser();
-        // optionally set chooser options ...
-        if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-        	FileWriter fw;
-			try {
-				fw = new FileWriter(chooser.getSelectedFile());
-				fw.write(parser.export(table.getModel().getRules()));
-				fw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-            
-        } else {
-            // user changed their mind
-        }
-	}
-
-	/**
-	 * 
-	 */
-	private FWType selectType() {
-		Object[] possibilities = {"UFW", "IPTables"};
-		String s = (String)JOptionPane.showInputDialog(
-		                    this, "Please select a firewall type:",
-		                    "FireWall Selection",
-		                    JOptionPane.PLAIN_MESSAGE,
-		                    null, possibilities,
-		                    "UFW");	
-		
-		if (s != null) {
-			return FWType.fromString(s);
-		} 
-		
-		return null;
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 
 	@Override
@@ -297,6 +185,38 @@ public class ControlPane extends JPanel implements RuleListener {
 	public void ruleFocused(Model model) {
 		
 		
+	}
+	
+	public Table getTable() {
+		return table;
+	}
+
+	public HashMap<Anomaly, JLabel> getLabels() {
+		return labels;
+	}
+
+	public HashMap<Anomaly, JCheckBox> getFilters() {
+		return filters;
+	}
+
+	public JMenuItem getExport() {
+		return export;
+	}
+
+	public JButton getAdd() {
+		return add;
+	}
+
+	public JButton getRemove() {
+		return remove;
+	}
+
+	public JButton getFocus() {
+		return focus;
+	}
+
+	public JButton getUnfocus() {
+		return unfocus;
 	}
 	
 }

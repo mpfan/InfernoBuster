@@ -1,19 +1,11 @@
-package infernobuster.client;
+package infernobuster.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.AbstractTableModel;
-
-import infernobuster.detector.Anomaly;
-import infernobuster.detector.DetectionResult;
-import infernobuster.detector.Detector;
-import infernobuster.mvc.RuleListener;
-import infernobuster.parser.Action;
-import infernobuster.parser.Direction;
-import infernobuster.parser.Protocol;
-import infernobuster.parser.Rule;
 
 public class Model extends AbstractTableModel {
 	private static final long serialVersionUID = 6655916175935685147L;
@@ -33,18 +25,34 @@ public class Model extends AbstractTableModel {
 	private ArrayList<Anomaly> filter;
 	private Detector detector;
 	private DetectionResult result;
+	private Parser parser;
 	
 	private ArrayList<RuleListener> listeners;
 	
 	private int focusedRule;
 	
-	public Model(ArrayList<Rule> rules) {
-		this.rules = rules;
+	public Model() {
+		rules = new ArrayList<Rule>();
 		filter = new ArrayList<Anomaly>();
 		detector = new Detector();
 		listeners = new ArrayList<RuleListener>();
 		
 		focusedRule = -1;
+	}
+	
+	public String export() {
+		return parser.export(rules);
+	}
+	
+	public void parse(ArrayList<String> content, FWType type) throws ParserException {
+		if (type == FWType.IPTABLES) {
+    		parser = new IpTableParser();
+        } else if (type == FWType.UFW) {
+    		parser = new UFWParser();
+        }
+
+		rules = parser.parse(content);
+		setRules(rules);
 	}
 	
 	public void addRuleListener(RuleListener listener) {

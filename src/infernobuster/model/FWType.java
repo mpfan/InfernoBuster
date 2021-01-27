@@ -1,6 +1,4 @@
-package infernobuster.client;
-
-import infernobuster.parser.Protocol;
+package infernobuster.model;
 
 /**
  * Used for tracking firewall types

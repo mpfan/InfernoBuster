@@ -1,8 +1,6 @@
-package infernobuster.parser;
+package infernobuster.model;
 
 import java.util.ArrayList;
-
-import org.graalvm.compiler.phases.common.DeadCodeEliminationPhase_OptionDescriptors;
 
 /**
  * Parse rule-tuple entries from UFW config file extract. The parsing looks for

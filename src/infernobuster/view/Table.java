@@ -1,4 +1,4 @@
-package infernobuster.client;
+package infernobuster.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,7 +9,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.TableRowSorter;
 
-import infernobuster.parser.Rule;
+import infernobuster.model.Model;
+import infernobuster.model.Rule;
 
 public class Table extends JPanel{
 	private static final long serialVersionUID = 8804243421849192593L;
@@ -18,10 +19,10 @@ public class Table extends JPanel{
 	private TableRowSorter<Model> sorter;
 	private Model model;
 	
-	public Table() {
-		setBackground(Color.WHITE);
+	public Table(Model model) {
+		this.model = model;
 		
-		model = new Model(new ArrayList<Rule>()); 
+		setBackground(Color.WHITE);
 		
 		table = new JTable(model);
 		table.setBackground(Color.WHITE);

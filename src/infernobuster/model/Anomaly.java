@@ -1,4 +1,4 @@
-package infernobuster.detector;
+package infernobuster.model;
 
 public enum Anomaly {
 	REDUNDANCY("Redundancy"), 
