@@ -1,9 +1,7 @@
-package infernobuster.detector;
+package infernobuster.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import infernobuster.parser.Rule;
 
 public class Detector {
 	public Detector() {}
@@ -11,6 +9,7 @@ public class Detector {
 	// Algorithm 
 	public DetectionResult detect(ArrayList<Rule> rules) {
 		HashMap<Anomaly, ArrayList<Rule>> result = new HashMap<Anomaly, ArrayList<Rule>>();
+		HashMap<Integer, ArrayList<Integer>> conflictingRules = new HashMap<Integer, ArrayList<Integer>>();
 
 		for(int i = 0; i < rules.size(); i++) {
 			for(int j = i + 1; j < rules.size(); j++) {
@@ -18,6 +17,7 @@ public class Detector {
 				
 				Anomaly anomaly = null;
 				ArrayList<Rule> rList = null;
+				ArrayList<Integer> cList = null;
 				if(rules.get(i).isRedundant(rules.get(j))) {
 					anomaly = Anomaly.REDUNDANCY;
 				}
@@ -48,10 +48,14 @@ public class Detector {
 					rList.add(rules.get(i));
 					rList.add(rules.get(j));
 					result.put(anomaly, rList);
+					
+					cList = conflictingRules.getOrDefault(rules.get(i).getId(), new ArrayList<Integer>());
+					cList.add(rules.get(j).getId());
+					conflictingRules.put(rules.get(i).getId(), cList);
 				}
 			}
 		}
 		
-		return new DetectionResult(result);
+		return new DetectionResult(result, conflictingRules);
 	}
 }

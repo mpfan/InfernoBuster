@@ -1,4 +1,4 @@
-package infernobuster.client;
+package infernobuster.view;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import infernobuster.detector.Anomaly;
+import infernobuster.model.Anomaly;
 
 public class Badge extends JPanel implements TableCellRenderer {
 	private static final long serialVersionUID = 7694050302588028071L;

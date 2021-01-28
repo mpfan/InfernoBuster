@@ -2,12 +2,12 @@ package infernobuster.test;
 
 import java.util.ArrayList;
 
-import infernobuster.detector.DetectionResult;
-import infernobuster.detector.Detector;
-import infernobuster.parser.Action;
-import infernobuster.parser.Direction;
-import infernobuster.parser.Protocol;
-import infernobuster.parser.Rule;
+import infernobuster.model.Action;
+import infernobuster.model.DetectionResult;
+import infernobuster.model.Detector;
+import infernobuster.model.Direction;
+import infernobuster.model.Protocol;
+import infernobuster.model.Rule;
 
 public class Test {
 	public static void main(String args[]) {

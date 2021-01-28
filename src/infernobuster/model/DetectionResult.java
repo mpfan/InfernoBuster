@@ -1,15 +1,15 @@
-package infernobuster.detector;
+package infernobuster.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import infernobuster.parser.Rule;
-
 public class DetectionResult {
 	HashMap<Anomaly, ArrayList<Rule>> result;
+	HashMap<Integer, ArrayList<Integer>> conflictingRules;
 	
-	public DetectionResult(HashMap<Anomaly, ArrayList<Rule>> result) {
+	public DetectionResult(HashMap<Anomaly, ArrayList<Rule>> result, HashMap<Integer, ArrayList<Integer>> conflictingRules) {
 		this.result = result;
+		this.conflictingRules = conflictingRules;
 	}
 	
 	public String toString() {
@@ -28,6 +28,16 @@ public class DetectionResult {
 	
 	public HashMap<Anomaly, ArrayList<Rule>> getResult() {
 		return result;
+	}
+	
+	public HashMap<Anomaly, Integer> getNumOfAnomalies() {
+		HashMap<Anomaly, Integer> stats = new HashMap<Anomaly, Integer>();
+		
+		for (HashMap.Entry<Anomaly, ArrayList<Rule>> entry : result.entrySet()) {
+			stats.put(entry.getKey(), entry.getValue().size());
+        }
+		
+		return stats;
 	}
 	
 	public Anomaly getTypeOfAnomaly(Rule rule) {
@@ -54,5 +64,9 @@ public class DetectionResult {
         }
 		
 		return anomalies;
+	}
+	
+	public ArrayList<Integer> getConflictedRules(int id) {
+		return conflictingRules.getOrDefault(id, null);
 	}
 }

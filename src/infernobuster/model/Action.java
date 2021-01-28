@@ -1,4 +1,4 @@
-package infernobuster.parser;
+package infernobuster.model;
 
 public enum Action {
 	DENY("deny"),
