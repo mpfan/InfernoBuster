@@ -53,8 +53,25 @@ public class RuleInputDialog extends JPanel {
 	}
 	
 	public Rule getRule() {
-		Rule rule = new Rule(sourceIp.getValue(), destinationIp.getValue(), Integer.parseInt(sourcePort.getValue()), 
-				Integer.parseInt(destinationPort.getValue()), Action.fromString(action.getValue()), Direction.fromString(direction.getValue())
+		// Handle any for port
+		int sport = -2;
+		int dport = -2;
+		
+		if(sourcePort.getValue().equalsIgnoreCase("any")) {
+			sport = -1;
+		} else {
+			sport = Integer.parseInt(sourcePort.getValue());
+		}
+		
+		if(destinationPort.getValue().equalsIgnoreCase("any")) {
+			dport = -1;
+		} else {
+			dport = Integer.parseInt(destinationPort.getValue());
+		}
+		
+		
+		Rule rule = new Rule(sourceIp.getValue(), destinationIp.getValue(), sport, 
+				dport, Action.fromString(action.getValue()), Direction.fromString(direction.getValue())
 				,Protocol.fromString(protocol.getValue()), Integer.parseInt(priority.getValue()));
 		
 		// Exception handling here
