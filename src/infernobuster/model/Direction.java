@@ -2,7 +2,8 @@ package infernobuster.model;
 
 public enum Direction {
 	IN("in"),
-	OUT("out");
+	OUT("out"),
+	DIRECTION("any");
 	
 	private String text;
 
