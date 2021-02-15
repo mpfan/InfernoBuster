@@ -21,4 +21,14 @@ public enum Protocol {
         }
         throw new IllegalArgumentException("Invalid input " + text);
     }
+    
+    public static String[] getAll() {
+    	String[] all = new String[Protocol.values().length];
+    	
+    	for (int i = 0; i < all.length; i++) {
+            all[i] = Protocol.values()[i].text.toUpperCase();
+        }
+    	
+    	return all;
+    }
 }	
