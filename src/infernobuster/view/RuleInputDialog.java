@@ -1,6 +1,7 @@
 package infernobuster.view;
 
 import java.awt.FlowLayout;
+import java.util.regex.Pattern;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -102,12 +103,22 @@ public class RuleInputDialog extends JPanel {
 		}
 		
 		
+		if(!(checkIpFormat(sourceIp.getValue()) && checkIpFormat(destinationIp.getValue()))) {
+			JOptionPane.showMessageDialog(null, "Invalid IP","Ip address must be in the format: [0-255].[0-255].[0-255].[0-255]/[0-32]", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+		
 		Rule rule = new Rule(sourceIp.getValue(), destinationIp.getValue(), sport, 
 				dport, Action.fromString(action.getValue()), Direction.fromString(direction.getValue())
 				,Protocol.fromString(protocol.getValue()), Integer.parseInt(priority.getValue()));
 		
 		
 		return rule;
+	}
+	
+	private boolean checkIpFormat(String ip) {
+		Pattern pattern = Pattern.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(?:\\.(?:[01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}(?:\\/[0-2]\\d|\\/3[0-2])?$");
+		return pattern.matcher(ip).find();
 	}
 
 	private class Field extends JPanel {
