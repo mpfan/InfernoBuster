@@ -1,4 +1,4 @@
-package infernobuster.client;
+package infernobuster.view;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,13 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import infernobuster.detector.DetectionResult;
-import infernobuster.detector.Detector;
-import infernobuster.parser.IpTableParser;
-import infernobuster.parser.Parser;
-import infernobuster.parser.ParserException;
-import infernobuster.parser.Rule;
-import infernobuster.parser.UFWParser;
+import infernobuster.model.DetectionResult;
+import infernobuster.model.Detector;
+import infernobuster.model.IpTableParser;
+import infernobuster.model.Parser;
+import infernobuster.model.ParserException;
+import infernobuster.model.Rule;
+import infernobuster.model.UFWParser;
 
 /*
  * --ufw for ufw
@@ -28,7 +28,9 @@ import infernobuster.parser.UFWParser;
 
 public class Client {
 	public static void main(String[] args) {
-		File file = new File(args[0]); 
+		File file = new File(".");
+		System.out.println(file.getAbsolutePath());
+		System.out.println(file.exists());
 		  
 		BufferedReader br;
 		ArrayList<String> content = new ArrayList<String>();
@@ -60,7 +62,7 @@ public class Client {
 
 		ArrayList<Rule> rules = null;
 		try {
-			parser.parse(content);
+			rules = parser.parse(content);
 		} catch (ParserException e) {
 			System.out.println(e.getMessage());
 			System.exit(1);

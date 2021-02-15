@@ -1,4 +1,4 @@
-package infernobuster.parser;
+package infernobuster.model;
 
 /**
  * 
@@ -16,8 +16,11 @@ public class Rule {
 	private Action action;
 	private Direction direction;
 	private Protocol protocol;
+	private int id;
 	
 	public static int ANY = -1;
+	
+	public static int NUM_OF_FIELD = 8;
 	
 	/**
 	 * 
@@ -39,9 +42,11 @@ public class Rule {
 		this.direction = direction;
 		this.protocol = protocol;
 		this.priority = priority;
+		this.id = priority;
 		
-		source = new IpRange("any");
-		destination = new IpRange("any");
+		
+		source = new IpRange(sourceIp.equalsIgnoreCase("any") ? "any" : sourceIp);
+		destination = new IpRange(destinationIp.equalsIgnoreCase("any") ? "any" : destinationIp);
 	}
 	
 	/**
@@ -124,6 +129,52 @@ public class Rule {
 		return protocol;
 	}
 	
+	public void setSourceIp(String sourceIp) {
+		this.sourceIp = sourceIp;
+		setSource(new IpRange(sourceIp.equalsIgnoreCase("any") ? "any" : sourceIp));
+	}
+
+	public void setDestinationIp(String destinationIp) {
+		this.destinationIp = destinationIp;
+		setSource(new IpRange(destinationIp.equalsIgnoreCase("any") ? "any" : destinationIp));
+	}
+
+	public void setSource(IpRange source) {
+		this.source = source;
+	}
+
+	public void setDestination(IpRange destination) {
+		this.destination = destination;
+	}
+
+	public void setSourcePort(int sourcePort) {
+		this.sourcePort = sourcePort;
+	}
+
+	public void setDestinationPort(int destinationPort) {
+		this.destinationPort = destinationPort;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
+
+	public void setProtocol(Protocol protocol) {
+		this.protocol = protocol;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
 	/**
 	 * 
 	 * @return 
@@ -157,7 +208,7 @@ public class Rule {
 	private boolean equals(Rule rule) {
 		return source.equals(rule.getSource()) 
 				&& destination.equals(rule.getDestination()) 
-				&& comparePort(sourcePort, rule.getDestinationPort())
+				&& comparePort(sourcePort, rule.getSourcePort())
 				&& comparePort(destinationPort, rule.getDestinationPort())
 				&& direction == rule.getDirection();
 	}

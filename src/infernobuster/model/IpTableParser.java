@@ -1,4 +1,4 @@
-package infernobuster.parser;
+package infernobuster.model;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ public class IpTableParser extends Parser{
 	public IpTableParser() {}
 
 	public ArrayList<Rule> parse(ArrayList<String> content) throws ParserException {
+//		try {
 		ArrayList<Rule> rules = new ArrayList<Rule>();
 		
 		int priority = 0;
@@ -94,6 +95,10 @@ public class IpTableParser extends Parser{
 		}
 		
 		return rules;
+//		} catch (Exception e){
+//			System.err.println("Caught IOException: " + e.getMessage());
+//			return null;
+//		}
 	}
 
 	private String find(String[] tokens, String token) {
@@ -104,5 +109,20 @@ public class IpTableParser extends Parser{
 		}
 		
 		return null;
+	}
+
+	@Override
+	public String export(ArrayList<Rule> rules) {
+		StringBuilder sb = new StringBuilder();
+		for(Rule rule : rules) {
+			String direction = rule.getDirection() == Direction.IN ? "INPUT" : "OUTPUT"; 
+			String action = rule.getAction() == Action.ALLOW ? "ACCEPT" : "DROP";
+			String line = "-A " + direction + " -s " + rule.getSourceIp() + " -d " + rule.getDestinationIp() + " -p " + 
+			rule.getProtocol().toString().toLowerCase() + " --sport "+ rule.getSourcePort() + " --dport " + rule.getDestinationPort() +
+			" -j " + action;
+			
+			sb.append(line + "\n");
+ 		}
+		return sb.toString();
 	}
 }

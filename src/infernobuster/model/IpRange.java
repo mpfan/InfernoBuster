@@ -1,4 +1,4 @@
-package infernobuster.parser;
+package infernobuster.model;
 
 /**
  * 
@@ -93,7 +93,7 @@ public class IpRange {
         if(parsed.length > 1) {
             mask = Integer.parseInt(parsed[1]);
         }
-
+        
         int ipStart = 0;
         // Converting to byte
         for(String octet : startingIp) {
