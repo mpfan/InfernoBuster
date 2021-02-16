@@ -27,9 +27,15 @@ public class Table extends JPanel{
 		table = new JTable(model);
 		table.setBackground(Color.WHITE);
 		sorter = new TableRowSorter<Model>(model);
-		table.setRowSorter(sorter);
 		sorter.setRowFilter(model.getFilter());
+		sorter.setComparator(Model.BADGE_INDEX, new BadgeSorter());
 		
+		// Disable sorters for columns 1 - 7
+		for(int i = Model.SOURCE_IP_INDEX; i <= Model.ACTION_INDEX; i++) {
+			sorter.setSortable(i, false);
+		}
+		
+		table.setRowSorter(sorter);
 		// The badges will be custom rendered
 		table.getColumnModel().getColumn(Model.BADGE_INDEX).setCellRenderer(new Badge());
 		

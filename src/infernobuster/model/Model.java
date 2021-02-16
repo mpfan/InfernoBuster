@@ -3,9 +3,10 @@ package infernobuster.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.AbstractTableModel;
+
+import infernobuster.view.Badge;
 
 public class Model extends AbstractTableModel {
 	private static final long serialVersionUID = 6655916175935685147L;
@@ -151,7 +152,13 @@ public class Model extends AbstractTableModel {
 	}
 
 	public Class<?> getColumnClass(int columnIndex) {
-		return columnIndex == BADGE_INDEX ? ArrayList.class : String.class;
+		if(columnIndex == BADGE_INDEX) {
+			return ArrayList.class;
+		} else if(columnIndex == PRIORITY_INDEX) {
+			return Integer.class;
+		}
+		
+		return String.class;
 	}
 
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
