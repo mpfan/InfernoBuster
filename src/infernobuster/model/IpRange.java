@@ -78,8 +78,7 @@ public class IpRange {
 	}
 	
 	/**
-	 * 
-	 * @param ip
+	 * Unfolds the mask into an ip range. 
 	 */
 	private void resolveRange(String ip) {
 		if(ip.equalsIgnoreCase("any")) {
