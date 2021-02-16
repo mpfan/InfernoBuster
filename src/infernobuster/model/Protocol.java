@@ -1,5 +1,10 @@
 package infernobuster.model;
 
+/**
+ * 
+ * Enumerator class for allowed packet protocols.
+ * 
+ */
 public enum Protocol {
 	TCP("TCP"), UDP("UDP"), ANY("ANY");
 	

@@ -1,8 +1,8 @@
 package infernobuster.model;
 
 /**
- * 
- * @author 
+ * This class abstracts firewall rules into an object along with their required properties.
+ * If any other properties are included in a firewall rule, then they should be added in here.
  *
  */
 public class Rule {
