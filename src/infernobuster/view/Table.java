@@ -40,7 +40,7 @@ public class Table extends JPanel{
 		table.getColumnModel().getColumn(Model.BADGE_INDEX).setCellRenderer(new Badge());
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setPreferredSize(new Dimension(800,600));
+		scrollPane.setPreferredSize(new Dimension(1000,600));
 		scrollPane.setBackground(Color.WHITE);
 		
 		add(scrollPane);
