@@ -97,18 +97,20 @@ public class Model extends AbstractTableModel {
 		RowFilter<Model,Integer> anomalyFilter = new RowFilter<Model,Integer>() {
 			public boolean include(Entry<? extends Model, ? extends Integer> entry) {
 			    Rule rule = rules.get(entry.getIdentifier());
+			    ArrayList<Integer> conflictingRules = result.getConflictedRules(focusedRule);
+			    
 			    
 			    if(filter.isEmpty()) {
 			    	if(focusedRule == -1) {
 			    		return true;
-			    	} else if(focusedRule == rule.getId() || result.getConflictedRules(focusedRule).contains(rule.getId())){
+			    	} else if(focusedRule == rule.getId() || (conflictingRules != null && conflictingRules.contains(rule.getId()))) {
 			    		return true;
 			    	}
 			    	
 			    } else if (filter.contains(result.getTypeOfAnomaly(rule))) {
 			    	if(focusedRule == -1) {
 			    		return true;
-			    	} else if(focusedRule == rule.getId() || result.getConflictedRules(focusedRule).contains(rule.getId())){
+			    	} else if(focusedRule == rule.getId() || (conflictingRules != null && conflictingRules.contains(rule.getId()))){
 			    		return true;
 			    	}
 				}

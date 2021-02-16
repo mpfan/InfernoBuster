@@ -2,12 +2,13 @@ package infernobuster.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class DetectionResult {
-	HashMap<Anomaly, ArrayList<Rule>> result;
+	HashMap<Anomaly, Set<Rule>> result;
 	HashMap<Integer, ArrayList<Integer>> conflictingRules;
 	
-	public DetectionResult(HashMap<Anomaly, ArrayList<Rule>> result, HashMap<Integer, ArrayList<Integer>> conflictingRules) {
+	public DetectionResult(HashMap<Anomaly, Set<Rule>> result, HashMap<Integer, ArrayList<Integer>> conflictingRules) {
 		this.result = result;
 		this.conflictingRules = conflictingRules;
 	}
@@ -15,7 +16,7 @@ public class DetectionResult {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
-		for (HashMap.Entry<Anomaly, ArrayList<Rule>> entry : result.entrySet()) {
+		for (HashMap.Entry<Anomaly, Set<Rule>> entry : result.entrySet()) {
 			sb.append(entry.getKey() + ":\n");
 			for(Rule rule: entry.getValue()) {
 				sb.append(rule.toString() + "\n");
@@ -26,14 +27,14 @@ public class DetectionResult {
 		return sb.toString();
 	}
 	
-	public HashMap<Anomaly, ArrayList<Rule>> getResult() {
+	public HashMap<Anomaly, Set<Rule>> getResult() {
 		return result;
 	}
 	
 	public HashMap<Anomaly, Integer> getNumOfAnomalies() {
 		HashMap<Anomaly, Integer> stats = new HashMap<Anomaly, Integer>();
 		
-		for (HashMap.Entry<Anomaly, ArrayList<Rule>> entry : result.entrySet()) {
+		for (HashMap.Entry<Anomaly, Set<Rule>> entry : result.entrySet()) {
 			stats.put(entry.getKey(), entry.getValue().size());
         }
 		
@@ -41,7 +42,7 @@ public class DetectionResult {
 	}
 	
 	public Anomaly getTypeOfAnomaly(Rule rule) {
-		for (HashMap.Entry<Anomaly, ArrayList<Rule>> entry : result.entrySet()) {
+		for (HashMap.Entry<Anomaly, Set<Rule>> entry : result.entrySet()) {
 			for(Rule r: entry.getValue()) {
 				if(r.getId() == rule.getId()) {
 					return entry.getKey();
@@ -55,7 +56,7 @@ public class DetectionResult {
 	public ArrayList<Anomaly> getTypesOfAnomaly(Rule rule) {
 		ArrayList<Anomaly> anomalies = new ArrayList<Anomaly>();
 		
-		for (HashMap.Entry<Anomaly, ArrayList<Rule>> entry : result.entrySet()) {
+		for (HashMap.Entry<Anomaly, Set<Rule>> entry : result.entrySet()) {
 			for(Rule r: entry.getValue()) {
 				if(r.getId() == rule.getId()) {
 					anomalies.add(entry.getKey());
@@ -67,6 +68,20 @@ public class DetectionResult {
 	}
 	
 	public ArrayList<Integer> getConflictedRules(int id) {
-		return conflictingRules.getOrDefault(id, null);
+		ArrayList<Integer> conflictedRules = conflictingRules.getOrDefault(id, null);
+		
+		if(conflictedRules == null) {
+			conflictedRules = new ArrayList<Integer>();
+			
+			for (HashMap.Entry<Integer, ArrayList<Integer>> entry : conflictingRules.entrySet()) {
+				for(Integer ruleId: entry.getValue()) {
+					if(ruleId == id) {
+						conflictedRules.add(entry.getKey());
+					}
+				}
+	        }
+		}
+		
+		return conflictedRules;
 	}
 }
