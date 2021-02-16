@@ -22,6 +22,8 @@ public class Rule {
 	
 	public static int NUM_OF_FIELD = 8;
 	
+	private static int idCounter = 0;
+	
 	/**
 	 * 
 	 * @param sourceIp
@@ -42,7 +44,9 @@ public class Rule {
 		this.direction = direction;
 		this.protocol = protocol;
 		this.priority = priority;
-		this.id = priority;
+		this.id = idCounter;
+		
+		idCounter++;
 		
 		
 		source = new IpRange(sourceIp.equalsIgnoreCase("any") ? "any" : sourceIp);

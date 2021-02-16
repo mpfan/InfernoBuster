@@ -32,31 +32,6 @@ public class Badge extends JPanel implements TableCellRenderer {
 			badge.setBackground(Color.WHITE);
 		}
 	}
-	
-	private Color getColor(Anomaly anomaly) {
-		if(anomaly == null) return Color.WHITE;
-		
-		switch(anomaly) {
-			case REDUNDANCY:
-				return Color.BLUE;
-			case INCONSISTENCY:
-				return Color.CYAN;
-			case SHADOWING:
-				return Color.DARK_GRAY;
-			case DOWN_REDUNDANT:
-				return Color.GRAY;
-			case GENERALIZIATION:
-				return Color.GREEN;
-			case UP_REDUNDANT:
-				return Color.LIGHT_GRAY;
-			case PARTIAL_REDUNDANCY:
-				return Color.MAGENTA;
-			case CORRELATION:
-				return Color.ORANGE;
-			default:
-				return Color.WHITE;
-		}
-	}
 
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         ArrayList<Anomaly> anomalies = (ArrayList<Anomaly>) value;
@@ -64,7 +39,7 @@ public class Badge extends JPanel implements TableCellRenderer {
         resetBadge();
         
         for(int i = 0; i < anomalies.size(); i++) {
-        	badges.get(i).setBackground(getColor(anomalies.get(i)));
+        	badges.get(i).setBackground(ViewHelper.getColor(anomalies.get(i)));
         }
         
         return this;

@@ -121,11 +121,11 @@ public class Controller {
 	public void addRule() {
 		RuleInputDialog dialog = new RuleInputDialog();
 		
-		dialog.showDialog();
+		Rule rule = dialog.showDialog();
 		
-		Rule rule = dialog.getRule();
-		
-		model.add(rule);
+		if(rule != null) {
+			model.add(rule);
+		}
 	}
 	
 	public void removeRule() {
