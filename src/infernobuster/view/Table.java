@@ -67,6 +67,6 @@ public class Table extends JPanel{
 	}
 	
 	public int getSelectedRow() {
-		return table.getSelectedRow();
+		return table.convertRowIndexToModel(table.getSelectedRow());
 	}
 }
