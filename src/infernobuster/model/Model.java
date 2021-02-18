@@ -179,11 +179,11 @@ public class Model extends AbstractTableModel {
 		} else if(columnIndex == DESTINTATION_PORT_INDEX) {
 			return rule.getDestinationPort();
 		} else if(columnIndex == ACTION_INDEX) {
-			return rule.getAction();
+			return rule.getAction().toString();
 		} else if(columnIndex == DIRECTION_INDEX) {
-			return rule.getDirection();
+			return rule.getDirection().toString();
 		} else if(columnIndex == PROTOCOL_INDEX) {
-			return rule.getProtocol();
+			return rule.getProtocol().toString();
 		} else if(columnIndex == PRIORITY_INDEX) {
 			return rule.getPriority();
 		} else if(columnIndex == BADGE_INDEX){

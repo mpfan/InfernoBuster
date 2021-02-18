@@ -54,8 +54,9 @@ public class Controller {
 	}
 	
 	/**
+	 * This method allows the user to select a file type to parse and then load the file.
 	 * 
-	 * @param type
+	 * @param type the firewall type to be parsed
 	 */
 	public void openFile(FWType type) {
 		JFileChooser chooser = new JFileChooser();
@@ -98,7 +99,7 @@ public class Controller {
 	}
 	
 	/**
-	 *
+	 * This method allows the user to export their firewall rules to a new or existing file.
 	 */
 	public void exportFile() {
 		JFileChooser chooser = new JFileChooser();
@@ -132,6 +133,10 @@ public class Controller {
 		model.remove(view.getTable().getSelectedRow());
 	}
 	
+	/**
+	 * Filters the rules by anomaly. See Model.setFocusedRule.
+	 * 
+	 */
 	public void focus() {
 		model.setFocusedRule(view.getTable().getSelectedRow());
 		view.getTable().setFilter();

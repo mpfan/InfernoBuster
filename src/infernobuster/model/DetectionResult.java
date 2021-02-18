@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+/**
+ * This class encapsulates the conflicting rules detected from the Detector and adds some helper 
+ * methods for working with the conflicting rules.
+ *
+ */
 public class DetectionResult {
 	HashMap<Anomaly, Set<Rule>> result;
 	HashMap<Integer, ArrayList<Integer>> conflictingRules;
@@ -53,6 +58,9 @@ public class DetectionResult {
 		return null;
 	}
 	
+	/**
+	 * Returns all the type of anomalies that a rule is having.
+	 */
 	public ArrayList<Anomaly> getTypesOfAnomaly(Rule rule) {
 		ArrayList<Anomaly> anomalies = new ArrayList<Anomaly>();
 		
@@ -67,6 +75,9 @@ public class DetectionResult {
 		return anomalies;
 	}
 	
+	/**
+	 * Returns a list of rule ids that the a given rule has conflict with
+	 */
 	public ArrayList<Integer> getConflictedRules(int id) {
 		ArrayList<Integer> conflictedRules = conflictingRules.getOrDefault(id, null);
 		

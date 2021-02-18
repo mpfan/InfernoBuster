@@ -180,12 +180,6 @@ public class ControlPane extends JPanel implements RuleListener {
 		
 		remove.setEnabled(model.getRules().size() > 0);
 	}
-
-	@Override
-	public void ruleFocused(Model model) {
-		
-		
-	}
 	
 	public Table getTable() {
 		return table;

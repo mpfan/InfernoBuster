@@ -1,5 +1,10 @@
 package infernobuster.model;
 
+
+/**
+ * Enumerator class for allowed packet direction.
+ * 
+ */
 public enum Direction {
 	IN("in"),
 	OUT("out"),

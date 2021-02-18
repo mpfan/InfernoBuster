@@ -1,5 +1,10 @@
 package infernobuster.model;
 
+
+/**
+ * Enumerator class for allowed packet actions.
+ * 
+ */
 public enum Action {
 	DENY("deny"),
 	ALLOW("allow");

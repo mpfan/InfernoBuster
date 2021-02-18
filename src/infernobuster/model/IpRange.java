@@ -1,8 +1,7 @@
 package infernobuster.model;
 
 /**
- * 
- * @author 
+ * This class is used to unfold the IP address and subnet mask, and hold the address coverage as a range 
  *
  */
 public class IpRange {
@@ -78,8 +77,7 @@ public class IpRange {
 	}
 	
 	/**
-	 * 
-	 * @param ip
+	 * Unfolds the mask into an ip range. 
 	 */
 	private void resolveRange(String ip) {
 		if(ip.equalsIgnoreCase("any")) {
