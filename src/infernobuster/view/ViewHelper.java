@@ -10,21 +10,21 @@ public class ViewHelper {
 		
 		switch(anomaly) {
 			case REDUNDANCY:
-				return Color.BLUE;
+				return new Color(128, 191, 255);
 			case INCONSISTENCY:
-				return Color.CYAN;
+				return new Color(255, 128, 128);
 			case SHADOWING:
 				return Color.DARK_GRAY;
 			case DOWN_REDUNDANT:
 				return Color.GRAY;
 			case GENERALIZIATION:
-				return Color.GREEN;
+				return new Color(128, 255, 170);
 			case UP_REDUNDANT:
-				return Color.LIGHT_GRAY;
+				return new Color(128, 223, 255);
 			case PARTIAL_REDUNDANCY:
-				return Color.MAGENTA;
+				return new Color(153, 153, 255);
 			case CORRELATION:
-				return Color.ORANGE;
+				return new Color(255, 179, 153);
 			default:
 				return Color.WHITE;
 		}

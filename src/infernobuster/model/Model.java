@@ -175,9 +175,11 @@ public class Model extends AbstractTableModel {
 		} else if(columnIndex == DESTINTATION_IP_INDEX) {
 			return rule.getDestinationIp();
 		} else if(columnIndex == SOURCE_PORT_INDEX) {
-			return rule.getSourcePort();
+			return rule.getSourcePort()
+					== -1 ? "ANY" : rule.getSourcePort();
 		} else if(columnIndex == DESTINTATION_PORT_INDEX) {
-			return rule.getDestinationPort();
+			return rule.getDestinationPort() 
+					== -1 ? "ANY" : rule.getDestinationPort();
 		} else if(columnIndex == ACTION_INDEX) {
 			return rule.getAction().toString();
 		} else if(columnIndex == DIRECTION_INDEX) {
