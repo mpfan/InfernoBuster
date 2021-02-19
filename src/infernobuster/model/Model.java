@@ -97,7 +97,7 @@ public class Model extends AbstractTableModel {
 		RowFilter<Model,Integer> anomalyFilter = new RowFilter<Model,Integer>() {
 			public boolean include(Entry<? extends Model, ? extends Integer> entry) {
 			    Rule rule = rules.get(entry.getIdentifier());
-			    ArrayList<Integer> conflictingRules = result.getConflictedRules(focusedRule);
+			    ArrayList<Integer> conflictingRules = result.getConflictedRules(rule.getId());
 			    
 			    
 			    if(filter.isEmpty()) {
@@ -107,7 +107,7 @@ public class Model extends AbstractTableModel {
 			    		return true;
 			    	}
 			    	
-			    } else if (filter.contains(result.getTypeOfAnomaly(rule))) {
+			    } else if (isInFilter(rule)) {
 			    	if(focusedRule == -1) {
 			    		return true;
 			    	} else if(focusedRule == rule.getId() || (conflictingRules != null && conflictingRules.contains(rule.getId()))){
@@ -254,5 +254,16 @@ public class Model extends AbstractTableModel {
 		fireTableDataChanged();
 		notifyAnomalyDetected();
         notifyRuleModified();
+	}
+	
+	private boolean isInFilter(Rule rule) {
+		ArrayList<Anomaly> ruleAnomalies = result.getTypesOfAnomaly(rule);
+		for(Anomaly ra : ruleAnomalies) {
+			if(filter.contains(ra)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
