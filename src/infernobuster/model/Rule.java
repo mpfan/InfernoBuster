@@ -225,7 +225,7 @@ public class Rule {
 	private boolean isSubset(Rule rule) {
 		return source.isSubset(rule.getSource()) 
 		&& destination.isSubset(rule.getDestination()) 
-		&& comparePort(sourcePort, rule.getDestinationPort())
+		&& comparePort(sourcePort, rule.getSourcePort())
 		&& comparePort(destinationPort, rule.getDestinationPort())
 		&& direction == rule.getDirection();
 	}
@@ -238,7 +238,7 @@ public class Rule {
 	private boolean isSuperset(Rule rule) {
 		return source.isSuperset(rule.getSource()) 
 		&& destination.isSuperset(rule.getDestination()) 
-		&& comparePort(sourcePort, rule.getDestinationPort())
+		&& comparePort(sourcePort, rule.getSourcePort())
 		&& comparePort(destinationPort, rule.getDestinationPort())
 		&& direction == rule.getDirection();
 	}
@@ -251,7 +251,7 @@ public class Rule {
 	private boolean isIntersecting(Rule rule) {
 		return source.isIntersecting(rule.getSource())
 				&& destination.isIntersecting(rule.getDestination())
-				&& comparePort(sourcePort, rule.getDestinationPort())
+				&& comparePort(sourcePort, rule.getSourcePort())
 				&& comparePort(destinationPort, rule.getDestinationPort())
 				&& direction == rule.getDirection();
 	}

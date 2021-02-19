@@ -60,6 +60,8 @@ public class Controller {
 	 */
 	public void openFile(FWType type) {
 		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new File("."));
+		
         // optionally set chooser options ...
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
         	File file = chooser.getSelectedFile();
@@ -103,6 +105,8 @@ public class Controller {
 	 */
 	public void exportFile() {
 		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new File("."));
+		
        // optionally set chooser options ...
        if (chooser.showSaveDialog(view) == JFileChooser.APPROVE_OPTION) {
        	FileWriter fw;
