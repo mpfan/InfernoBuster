@@ -11,6 +11,21 @@ class entity:
         self.src_port = src_port
         self.dst_port = dst_port
 
+    def lin_port(self, port):
+        if not port:
+            return port
+        if len(port) == 0:
+            return port[0]
+        
+        s = ""
+        for x in port:
+            if port.index(x) != len(port) - 1:
+                s += x + ","
+            else:
+                s += x
+
+        return s
+
 #DMZ
 #src_port - the port in which the message should be received
 #dst port - the reply
@@ -43,10 +58,10 @@ wiki = entity("208.80.152.0-208.80.155.255", "208.80.152.0/22", ["80", "8080", "
 external = [azure, google, stackoverflow, ms, wiki]
 
 #vpn clients
-vpn1 = entity("172.2.1.3", "172.2.1.3", None, ["53", "443", "110", "80", "502", "501", "80"])
-vpn2 = entity("172.2.10.0-172.2.11.255", "172.2.10.0/23", None, ["53", "443", "110", "80", "502", "501", "80"])
-vpn3 = entity("192.0.3.1", "192.0.3.1", None, ["53", "443", "110", "80", "502", "501", "80"])
-vpn4 = entity("198.10.55.0-198.10.55.255", "198.10.55.0/23", None, ["53", "443", "110", "80", "502", "501", "80"])
+vpn1 = entity("172.2.1.3", "172.2.1.3", None, ["53", "443", "110", "80", "502", "501"])
+vpn2 = entity("172.2.10.0-172.2.11.255", "172.2.10.0/23", None, ["53", "443", "110", "80", "502", "501"])
+vpn3 = entity("192.0.3.1", "192.0.3.1", None, ["53", "443", "110", "80", "502", "501"])
+vpn4 = entity("198.10.55.0-198.10.55.255", "198.10.55.0/23", None, ["53", "443", "110", "80", "502", "501"])
 vpn = [vpn1, vpn2, vpn3, vpn4]
 
 #Internal
@@ -70,7 +85,7 @@ vpn = [vpn1, vpn2, vpn3, vpn4]
 #   DNS
 
 
-#Internal service interaction
+#Windows
 def win_internal_reply_response(client_name, client, services):
     x = 0
     for service in services:
@@ -81,7 +96,6 @@ def win_internal_reply_response(client_name, client, services):
         win.add_rule("service_" + client_name + str(x), "in", "allow", service.win_ip, client.win_ip, None, None)
         x += 1
 
-#external service interaction
 def win_external_reply_response(client_name, client, decision):
     x = 0
     for service in external:
@@ -97,7 +111,6 @@ def win_external_reply_response(client_name, client, decision):
             
         x += 1
 
-#Create firewall rules for internal firewall
 def internal_fire_win():
     # sales, hr, accounting
     win_internal_reply_response("sales", sales, [web, email, dns]) #sales
@@ -185,6 +198,82 @@ def external_fire_win():
     proxy2 = entity("125.168.10.0-125.168.11.255", "125.168.10.0/23", ["53"], None)
     win_external_reply_response("down_redundancy", proxy2, "allow")
 
+#UFW
+def ufw_reply_response(client, services, decision):
+    for service in services:
+        ufw.add_rule(decision, client.lin_ip, service.lin_ip, service.lin_port(service.src_port))
+        ufw.add_rule(decision, service.lin_ip, client.lin_ip, service.lin_port(service.dst_port))
+
+def internal_fire_ufw():
+    # sales, hr, accounting
+    ufw_reply_response(sales, [web, email, dns] + external, "allow")
+    ufw_reply_response(hr, [web, email, dns] + external, "allow")
+    ufw_reply_response(accounting, [web, email, dns] + external, "allow")
+
+    #dev, prod, rd, eng, internal, it
+    ufw_reply_response(devs, [web, email, ftp, dns, proxy] + external, "allow")
+    ufw_reply_response(prod, [web, email, ftp, dns, proxy] + external, "allow")
+    ufw_reply_response(rd, [web, email, ftp, dns, proxy] + external, "allow")
+    ufw_reply_response(eng, [web, email, ftp, dns, proxy] + external, "allow")
+    ufw_reply_response(internal, [web, email, ftp, dns, proxy] + external, "allow")
+    ufw_reply_response(it, [web, email, ftp, dns, proxy] + external, "allow")
+    
+    #quality , testing
+    ufw_reply_response(test_net, [web, email, ftp, dns], "allow")
+    ufw_reply_response(quality, [web, email, ftp, dns], "allow")
+
+def external_fire_ufw():
+    #VPN clients
+    for v in vpn:
+        ufw.add_rule("allow", v.lin_ip, dns.lin_ip, "53,443,110,80,502,501,80")
+
+    #Redundant
+    #same rules
+    ufw.add_rule("allow", sales.lin_ip, web.lin_ip, None)
+    ufw.add_rule("allow", sales.lin_ip, email.lin_ip, None)
+
+    #inconsistent
+    #rules where they have the same packet but different action
+    ufw.add_rule("deny", sales.lin_ip, dns.lin_ip, None)
+    ufw.add_rule("deny", sales.lin_ip, azure.lin_ip, None)
+    
+    #correlation
+    #rules that intersect with another but defines a different action
+    ufw.add_rule("allow", "125.168.27.13", "10.0.0.2", "223")
+    ufw.add_rule2("deny", "125.168.27.13", "10.0.0.2", "223")
+    ufw.add_rule("allow", "125.168.27.13", "10.0.0.33", "223")
+    ufw.add_rule2("deny", "125.168.27.13", "10.0.0.33", "223")
+
+
+    #partial_redundancy
+    #rules that intersect with another but defines the same action
+    ufw.add_rule("deny", "125.168.14.5", web.lin_ip, "80") #subset of dev
+    ufw.add_rule("deny", "125.168.14.12", web.lin_ip, "80") #subset of dev
+    ufw.add_rule2("deny", "125.168.14.12", web.lin_ip, "80") #subset of dev
+    ufw.add_rule2("deny", "125.168.14.24", web.lin_ip, "80") #subset of dev
+
+
+    #generalization
+    #rules where one is a subset of another but they have different actions and the superset rule has a higher priority
+    ufw.add_rule("deny", "125.168.14.0/24", web.lin_ip, None) #subset of dev
+    ufw.add_rule("deny", devs.lin_ip, "125.158.0.0/23", None) #subset of web
+    ufw.add_rule("deny", "125.168.14.0/24", "125.158.0.0/24", "143") #subset of dev
+
+    #up_redundancy
+    #rules where one is a subset of another but they have the same actions and the superset rule has a higher priority
+    ufw.add_rule("allow", "125.168.20.0/24", email.lin_ip, None)
+
+    #shadowing
+    #rules where one is a subset of another but they have different actions and the subset rule has a higher priority
+    ufw.add_rule("deny", "125.168.24.0/23", email.lin_ip, None) #subset of quality and it
+
+    #down_redundancy
+    #rules where one is a subset of another but they have the same actions and the subset rule has a higher priority
+    ufw.add_rule("deny", prod.lin_ip, "125.158.0.0/21", None) #subset of web and email
+
+#IPTABLES
+
+
 def main():
     firewall = input("win = 0, ufw = 1, iptable = 2\n")
 
@@ -194,8 +283,11 @@ def main():
         external_fire_win()
         win.export2()
     elif firewall == "1":
-        x = 1
-        # ufw.export()
+        ufw.start()
+        internal_fire_ufw()
+        ufw.export_internal()
+        external_fire_ufw()
+        ufw.export_external()
     else:
         x = 2
         #iptb.export()
