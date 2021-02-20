@@ -54,11 +54,14 @@ public class Controller {
 	}
 	
 	/**
+	 * This method allows the user to select a file type to parse and then load the file.
 	 * 
-	 * @param type
+	 * @param type the firewall type to be parsed
 	 */
 	public void openFile(FWType type) {
 		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new File("."));
+		
         // optionally set chooser options ...
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
         	File file = chooser.getSelectedFile();
@@ -98,10 +101,12 @@ public class Controller {
 	}
 	
 	/**
-	 *
+	 * This method allows the user to export their firewall rules to a new or existing file.
 	 */
 	public void exportFile() {
 		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new File("."));
+		
        // optionally set chooser options ...
        if (chooser.showSaveDialog(view) == JFileChooser.APPROVE_OPTION) {
        	FileWriter fw;
@@ -121,17 +126,21 @@ public class Controller {
 	public void addRule() {
 		RuleInputDialog dialog = new RuleInputDialog();
 		
-		dialog.showDialog();
+		Rule rule = dialog.showDialog();
 		
-		Rule rule = dialog.getRule();
-		
-		model.add(rule);
+		if(rule != null) {
+			model.add(rule);
+		}
 	}
 	
 	public void removeRule() {
 		model.remove(view.getTable().getSelectedRow());
 	}
 	
+	/**
+	 * Filters the rules by anomaly. See Model.setFocusedRule.
+	 * 
+	 */
 	public void focus() {
 		model.setFocusedRule(view.getTable().getSelectedRow());
 		view.getTable().setFilter();

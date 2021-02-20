@@ -1,8 +1,8 @@
 package infernobuster.model;
 
 /**
- * 
- * @author 
+ * This class abstracts firewall rules into an object along with their required properties.
+ * If any other properties are included in a firewall rule, then they should be added in here.
  *
  */
 public class Rule {
@@ -21,6 +21,8 @@ public class Rule {
 	public static int ANY = -1;
 	
 	public static int NUM_OF_FIELD = 8;
+	
+	private static int idCounter = 0;
 	
 	/**
 	 * 
@@ -42,7 +44,9 @@ public class Rule {
 		this.direction = direction;
 		this.protocol = protocol;
 		this.priority = priority;
-		this.id = priority;
+		this.id = idCounter;
+		
+		idCounter++;
 		
 		
 		source = new IpRange(sourceIp.equalsIgnoreCase("any") ? "any" : sourceIp);
@@ -221,7 +225,7 @@ public class Rule {
 	private boolean isSubset(Rule rule) {
 		return source.isSubset(rule.getSource()) 
 		&& destination.isSubset(rule.getDestination()) 
-		&& comparePort(sourcePort, rule.getDestinationPort())
+		&& comparePort(sourcePort, rule.getSourcePort())
 		&& comparePort(destinationPort, rule.getDestinationPort())
 		&& direction == rule.getDirection();
 	}
@@ -234,7 +238,7 @@ public class Rule {
 	private boolean isSuperset(Rule rule) {
 		return source.isSuperset(rule.getSource()) 
 		&& destination.isSuperset(rule.getDestination()) 
-		&& comparePort(sourcePort, rule.getDestinationPort())
+		&& comparePort(sourcePort, rule.getSourcePort())
 		&& comparePort(destinationPort, rule.getDestinationPort())
 		&& direction == rule.getDirection();
 	}
@@ -247,7 +251,7 @@ public class Rule {
 	private boolean isIntersecting(Rule rule) {
 		return source.isIntersecting(rule.getSource())
 				&& destination.isIntersecting(rule.getDestination())
-				&& comparePort(sourcePort, rule.getDestinationPort())
+				&& comparePort(sourcePort, rule.getSourcePort())
 				&& comparePort(destinationPort, rule.getDestinationPort())
 				&& direction == rule.getDirection();
 	}

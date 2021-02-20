@@ -1,5 +1,10 @@
 package infernobuster.model;
 
+
+/**
+ * Enumerator class for allowed packet actions.
+ * 
+ */
 public enum Action {
 	DENY("deny"),
 	ALLOW("allow");
@@ -21,5 +26,15 @@ public enum Action {
             }
         }
         throw new IllegalArgumentException("Invalid input " + text);
+    }
+    
+    public static String[] getAll() {
+    	String[] all = new String[Action.values().length];
+    	
+    	for (int i = 0; i < all.length; i++) {
+            all[i] = Action.values()[i].text.toUpperCase();
+        }
+    	
+    	return all;
     }
 }

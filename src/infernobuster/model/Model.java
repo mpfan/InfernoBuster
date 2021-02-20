@@ -3,9 +3,10 @@ package infernobuster.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.AbstractTableModel;
+
+import infernobuster.view.Badge;
 
 public class Model extends AbstractTableModel {
 	private static final long serialVersionUID = 6655916175935685147L;
@@ -96,18 +97,20 @@ public class Model extends AbstractTableModel {
 		RowFilter<Model,Integer> anomalyFilter = new RowFilter<Model,Integer>() {
 			public boolean include(Entry<? extends Model, ? extends Integer> entry) {
 			    Rule rule = rules.get(entry.getIdentifier());
+			    ArrayList<Integer> conflictingRules = result.getConflictedRules(rule.getId());
+			    
 			    
 			    if(filter.isEmpty()) {
 			    	if(focusedRule == -1) {
 			    		return true;
-			    	} else if(focusedRule == rule.getId() || result.getConflictedRules(focusedRule).contains(rule.getId())){
+			    	} else if(focusedRule == rule.getId() || (conflictingRules != null && conflictingRules.contains(rule.getId()))) {
 			    		return true;
 			    	}
 			    	
-			    } else if (filter.contains(result.getTypeOfAnomaly(rule))) {
+			    } else if (isInFilter(rule)) {
 			    	if(focusedRule == -1) {
 			    		return true;
-			    	} else if(focusedRule == rule.getId() || result.getConflictedRules(focusedRule).contains(rule.getId())){
+			    	} else if(focusedRule == rule.getId() || (conflictingRules != null && conflictingRules.contains(rule.getId()))){
 			    		return true;
 			    	}
 				}
@@ -151,7 +154,13 @@ public class Model extends AbstractTableModel {
 	}
 
 	public Class<?> getColumnClass(int columnIndex) {
-		return columnIndex == BADGE_INDEX ? ArrayList.class : String.class;
+		if(columnIndex == BADGE_INDEX) {
+			return ArrayList.class;
+		} else if(columnIndex == PRIORITY_INDEX) {
+			return Integer.class;
+		}
+		
+		return String.class;
 	}
 
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -166,15 +175,17 @@ public class Model extends AbstractTableModel {
 		} else if(columnIndex == DESTINTATION_IP_INDEX) {
 			return rule.getDestinationIp();
 		} else if(columnIndex == SOURCE_PORT_INDEX) {
-			return rule.getSourcePort();
+			return rule.getSourcePort()
+					== -1 ? "ANY" : rule.getSourcePort();
 		} else if(columnIndex == DESTINTATION_PORT_INDEX) {
-			return rule.getDestinationPort();
+			return rule.getDestinationPort() 
+					== -1 ? "ANY" : rule.getDestinationPort();
 		} else if(columnIndex == ACTION_INDEX) {
-			return rule.getAction();
+			return rule.getAction().toString();
 		} else if(columnIndex == DIRECTION_INDEX) {
-			return rule.getDirection();
+			return rule.getDirection().toString();
 		} else if(columnIndex == PROTOCOL_INDEX) {
-			return rule.getProtocol();
+			return rule.getProtocol().toString();
 		} else if(columnIndex == PRIORITY_INDEX) {
 			return rule.getPriority();
 		} else if(columnIndex == BADGE_INDEX){
@@ -243,5 +254,16 @@ public class Model extends AbstractTableModel {
 		fireTableDataChanged();
 		notifyAnomalyDetected();
         notifyRuleModified();
+	}
+	
+	private boolean isInFilter(Rule rule) {
+		ArrayList<Anomaly> ruleAnomalies = result.getTypesOfAnomaly(rule);
+		for(Anomaly ra : ruleAnomalies) {
+			if(filter.contains(ra)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

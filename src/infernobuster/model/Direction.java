@@ -1,8 +1,14 @@
 package infernobuster.model;
 
+
+/**
+ * Enumerator class for allowed packet direction.
+ * 
+ */
 public enum Direction {
 	IN("in"),
-	OUT("out");
+	OUT("out"),
+	DIRECTION("any");
 	
 	private String text;
 
@@ -21,5 +27,15 @@ public enum Direction {
             }
         }
         throw new IllegalArgumentException("Invalid input " + text);
+    }
+    
+    public static String[] getAll() {
+    	String[] all = new String[Direction.values().length];
+    	
+    	for (int i = 0; i < all.length; i++) {
+            all[i] = Direction.values()[i].text.toUpperCase();
+        }
+    	
+    	return all;
     }
 }	

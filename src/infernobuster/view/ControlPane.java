@@ -21,7 +21,7 @@ public class ControlPane extends JPanel implements RuleListener {
 	
 	private Model model;
 	private Table table;
-	private HashMap<Anomaly,JLabel> labels;
+	private HashMap<Anomaly,AnomalyLabel> labels;
 	private HashMap<Anomaly,JCheckBox> filters;
 	private JMenuItem export;
 	private JButton add;
@@ -75,9 +75,9 @@ public class ControlPane extends JPanel implements RuleListener {
 		statsPanel.setLayout(new GridLayout(4,2));
 		statsPanel.setBorder(BorderFactory.createTitledBorder("Statistics"));
 		
-		labels = new HashMap<Anomaly,JLabel>();
+		labels = new HashMap<Anomaly,AnomalyLabel>();
 		for (Anomaly anomaly : Anomaly.values()) {
-            JLabel label = new JLabel(anomaly.toString() + ": 0");
+            AnomalyLabel label = new AnomalyLabel(anomaly, anomaly.toString() + ": 0");
             
             statsPanel.add(label);
             labels.put(anomaly, label);
@@ -164,8 +164,8 @@ public class ControlPane extends JPanel implements RuleListener {
 	@Override
 	public void anomalyDetected(Model model) {
 		HashMap<Anomaly, Integer> stats = model.getNumOfAnomalies();
-		for (HashMap.Entry<Anomaly, JLabel> entry : labels.entrySet()) {
-			JLabel label = entry.getValue();
+		for (HashMap.Entry<Anomaly, AnomalyLabel> entry : labels.entrySet()) {
+			AnomalyLabel label = entry.getValue();
 			
 			label.setText(entry.getKey().toString() + ": " + stats.getOrDefault(entry.getKey(),0));
         }
@@ -180,18 +180,12 @@ public class ControlPane extends JPanel implements RuleListener {
 		
 		remove.setEnabled(model.getRules().size() > 0);
 	}
-
-	@Override
-	public void ruleFocused(Model model) {
-		
-		
-	}
 	
 	public Table getTable() {
 		return table;
 	}
 
-	public HashMap<Anomaly, JLabel> getLabels() {
+	public HashMap<Anomaly, AnomalyLabel> getLabels() {
 		return labels;
 	}
 

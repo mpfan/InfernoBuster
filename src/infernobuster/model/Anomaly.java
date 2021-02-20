@@ -1,5 +1,9 @@
 package infernobuster.model;
 
+/**
+ * Enumerator class for possible anomalies.
+ * 
+ */
 public enum Anomaly {
 	REDUNDANCY("Redundancy"), 
 	INCONSISTENCY("Inconsistency"), 
