@@ -140,7 +140,7 @@ public class Rule {
 
 	public void setDestinationIp(String destinationIp) {
 		this.destinationIp = destinationIp;
-		setSource(new IpRange(destinationIp.equalsIgnoreCase("any") ? "any" : destinationIp));
+		setDestination(new IpRange(destinationIp.equalsIgnoreCase("any") ? "any" : destinationIp));
 	}
 
 	public void setSource(IpRange source) {
@@ -195,12 +195,12 @@ public class Rule {
 	 * 
 	 * @return
 	 */
-	public boolean compareProtocol(Protocol other) {
-		if(protocol == Protocol.ANY || other == Protocol.ANY) {
+	public boolean compareProtocol(Protocol protocol1, Protocol protocol2) {
+		if(protocol1 == Protocol.ANY || protocol2 == Protocol.ANY) {
 			return true;
 		}
 		else {
-			return protocol == other;
+			return protocol1 == protocol2;
 		}
 	}
 	
@@ -214,6 +214,7 @@ public class Rule {
 				&& destination.equals(rule.getDestination()) 
 				&& comparePort(sourcePort, rule.getSourcePort())
 				&& comparePort(destinationPort, rule.getDestinationPort())
+				&& compareProtocol(protocol, rule.getProtocol())
 				&& direction == rule.getDirection();
 	}
 	
@@ -227,6 +228,7 @@ public class Rule {
 		&& destination.isSubset(rule.getDestination()) 
 		&& comparePort(sourcePort, rule.getSourcePort())
 		&& comparePort(destinationPort, rule.getDestinationPort())
+		&& compareProtocol(protocol, rule.getProtocol())
 		&& direction == rule.getDirection();
 	}
 	
@@ -240,6 +242,7 @@ public class Rule {
 		&& destination.isSuperset(rule.getDestination()) 
 		&& comparePort(sourcePort, rule.getSourcePort())
 		&& comparePort(destinationPort, rule.getDestinationPort())
+		&& compareProtocol(protocol, rule.getProtocol())
 		&& direction == rule.getDirection();
 	}
 	
@@ -253,6 +256,7 @@ public class Rule {
 				&& destination.isIntersecting(rule.getDestination())
 				&& comparePort(sourcePort, rule.getSourcePort())
 				&& comparePort(destinationPort, rule.getDestinationPort())
+				&& compareProtocol(protocol, rule.getProtocol())
 				&& direction == rule.getDirection();
 	}
 	
@@ -262,7 +266,7 @@ public class Rule {
 	 * @return
 	 */
 	public boolean isRedundant(Rule rule) {
-		return equals(rule)&& action == rule.getAction();
+		return equals(rule) && action == rule.getAction();
 	}
 	
 	/**

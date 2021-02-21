@@ -27,10 +27,6 @@ public class IpTableParser extends Parser{
 			String sport = find(tokens, "--sport");
 			
 			if(sport == null) {
-				throw new ParserException("Malformed file");
-			}
-			
-			if(sport.equalsIgnoreCase("any")) {
 				sourcePort = Rule.ANY;
 			} else {
 				sourcePort = Integer.parseInt(sport);
@@ -40,10 +36,6 @@ public class IpTableParser extends Parser{
 			String dport = find(tokens, "--dport");
 			
 			if(dport == null) {
-				throw new ParserException("Malformed file");
-			}
-			
-			if(dport.equalsIgnoreCase("any")) {
 				destinationPort = Rule.ANY;
 			} else {
 				destinationPort = Integer.parseInt(dport);
