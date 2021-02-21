@@ -196,7 +196,7 @@ public class Rule {
 	 * @return
 	 */
 	public boolean compareProtocol(Protocol protocol1, Protocol protocol2) {
-		if(protocol1 == Protocol.ANY || protocol1 == Protocol.ANY) {
+		if(protocol1 == Protocol.ANY || protocol2 == Protocol.ANY) {
 			return true;
 		}
 		else {
