@@ -140,7 +140,7 @@ public class Rule {
 
 	public void setDestinationIp(String destinationIp) {
 		this.destinationIp = destinationIp;
-		setSource(new IpRange(destinationIp.equalsIgnoreCase("any") ? "any" : destinationIp));
+		setDestination(new IpRange(destinationIp.equalsIgnoreCase("any") ? "any" : destinationIp));
 	}
 
 	public void setSource(IpRange source) {
