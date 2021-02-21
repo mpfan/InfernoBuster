@@ -201,7 +201,8 @@ def external_fire_win():
 #UFW
 def ufw_reply_response(client, services, decision):
     for service in services:
-        ufw.add_rule(decision, client.lin_ip, service.lin_ip, service.lin_port(service.src_port))
+        for port in service.src_port:
+            ufw.add_rule(decision, client.lin_ip, service.lin_ip, port)
         ufw.add_rule(decision, service.lin_ip, client.lin_ip, service.lin_port(service.dst_port))
 
 def internal_fire_ufw():
@@ -225,7 +226,8 @@ def internal_fire_ufw():
 def external_fire_ufw():
     #VPN clients
     for v in vpn:
-        ufw.add_rule("allow", v.lin_ip, dns.lin_ip, "53,443,110,80,502,501,80")
+        for port in ["53","443","110","80","502","501","80"]:
+            ufw.add_rule("allow", v.lin_ip, dns.lin_ip, port)
 
     #Redundant
     #same rules
@@ -272,10 +274,74 @@ def external_fire_ufw():
     ufw.add_rule("deny", prod.lin_ip, "125.158.0.0/21", None) #subset of web and email
 
 #IPTABLES
+def iptb_reply_response(proto, client, services, decision):
+    for service in services:
+        for port in service.src_port:
+            iptb.add_rule(proto, "out", decision, client.lin_ip, service.lin_ip, None, port)
+        iptb.add_rule(proto, "in", decision, service.lin_ip, client.lin_ip, None, service.dst_port)
 
+def internal_fire_iptb():
+    # sales, hr, accounting
+    iptb_reply_response('udp', sales, [web, email, dns], "ACCEPT")
+    iptb_reply_response('tcp', sales, external, "ACCEPT")
+    iptb_reply_response('udp', hr, [web, email, dns], "ACCEPT")
+    iptb_reply_response('tcp', hr, external, "ACCEPT")
+    iptb_reply_response('udp', accounting, [web, email, dns], "ACCEPT")
+    iptb_reply_response('tcp', accounting, external, "ACCEPT")
+
+    #dev, prod, rd, eng, internal, it
+    iptb_reply_response('udp', devs, [web, email, ftp, dns, proxy], "ACCEPT")
+    iptb_reply_response('tcp', devs, external, "ACCEPT")
+    iptb_reply_response('udp', prod, [web, email, ftp, dns, proxy], "ACCEPT")
+    iptb_reply_response('tcp', prod, external, "ACCEPT")
+    iptb_reply_response('udp', rd, [web, email, ftp, dns, proxy], "ACCEPT")
+    iptb_reply_response('tcp', rd, external, "ACCEPT")
+    iptb_reply_response('udp', eng, [web, email, ftp, dns, proxy], "ACCEPT")
+    iptb_reply_response('tcp', eng, external, "ACCEPT")
+    iptb_reply_response('udp', internal, [web, email, ftp, dns, proxy], "ACCEPT")
+    iptb_reply_response('tcp', internal, external, "ACCEPT")
+    iptb_reply_response('udp', it, [web, email, ftp, dns, proxy], "ACCEPT")
+    iptb_reply_response('tcp', it, external, "ACCEPT")
+
+    #quality , testing
+    iptb_reply_response('udp', quality, [web, email, ftp, dns], "ACCEPT")
+    iptb_reply_response('udp', test_net, [web, email, ftp, dns], "ACCEPT")
+
+def external_fire_iptb():
+    #VPN clients
+    for v in vpn:
+        for port in ["53","443","110","80","502","501","80"]:
+            iptb.add_rule("tcp", "in", "ACCEPT", v.lin_ip, dns.lin_ip, None, port)
+
+    #inconsistent
+    #rules where they have the same packet but different action
+    iptb.add_rule("udp", "out", "DROP", sales.lin_ip, dns.lin_ip, None, None)
+    iptb.add_rule("tcp", "out", "DROP", sales.lin_ip, azure.lin_ip, None, None)
+
+    #correlation
+    #rules that intersect with another but defines a different action
+    iptb.add_rule("tcp", "out", "ACCEPT", "125.168.27.13", "10.0.0.2", None, None)
+    iptb.add_rule("tcp", "out", "DROP", "125.168.27.13", "10.0.0.2", None, None)
+    iptb.add_rule("tcp", "out", "ACCEPT", "125.168.27.13", "10.0.0.33", None, None)
+    iptb.add_rule("tcp", "out", "DROP", "125.168.27.13", "10.0.0.33", None, None)
+
+    #partial_redundancy
+    #rules that intersect with another but defines the same action
+    iptb.add_rule("udp", "out", "DROP", "125.168.14.5", web.lin_ip, None, "80")
+    iptb.add_rule("udp", "out", "DROP", "125.168.27.12", web.lin_ip, None, "80")
+
+    #generalization
+    #rules where one is a subset of another but they have different actions and the superset rule has a higher priority
+    iptb.add_rule("udp", "out", "DROP", "125.168.14.0/24", web.lin_ip, None, None)
+    iptb.add_rule("udp", "out", "DROP", devs.lin_ip, "125.158.0.0/23", None, None)
+    iptb.add_rule("udp", "out", "DROP", "125.168.14.0/24", "125.158.0.0/24", None, "143")
+    
+    #up_redundancy
+    #rules where one is a subset of another but they have the same actions and the superset rule has a higher priority
+    iptb.add_rule("udp", "out", "ACCEPT", "125.168.20.0/24", email.lin_ip, None, None)
 
 def main():
-    firewall = input("win = 0, ufw = 1, iptable = 2\n")
+    firewall = input("win = 0, ufw = 1, iptable = 2, iptables2 = 3\n")
 
     if firewall == "0":
         internal_fire_win()
@@ -288,9 +354,11 @@ def main():
         ufw.export_internal()
         external_fire_ufw()
         ufw.export_external()
+    elif firewall == "2":
+        iptb.start()
+        internal_fire_iptb()
     else:
-        x = 2
-        #iptb.export()
+        external_fire_iptb()
 
 if __name__ == "__main__":
     main()

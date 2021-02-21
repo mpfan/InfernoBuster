@@ -17,14 +17,26 @@
 :ufw-user-limit-accept - [0:0]
 ### RULES ###
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.11.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.11.0/24 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.11.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.11.0/24 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.11.0/24 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.11.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.11.0/24 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.11.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.11.0/24 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.11.0/24 -s 125.168.4.0/22 -j ACCEPT
@@ -35,44 +47,86 @@
 ### tuple ### allow tcp any 125.168.11.0/24 any 125.168.8.0/23 in
 -A ufw-user-input -p tcp -d 125.168.11.0/24 -s 125.168.8.0/23 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 13.64.0.0/10 any 125.168.11.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 13.64.0.0/10 -s 125.168.11.0/24 -j ACCEPT
+### tuple ### allow tcp 80 13.64.0.0/10 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 80 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 13.64.0.0/10 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 8080 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 13.64.0.0/10 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 403 -s 125.168.11.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.11.0/24 any 13.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.11.0/24 --dport 2500 -s 13.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 172.217.0.0/16 any 125.168.11.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 172.217.0.0/16 -s 125.168.11.0/24 -j ACCEPT
+### tuple ### allow tcp 80 172.217.0.0/16 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 80 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 172.217.0.0/16 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 8080 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 172.217.0.0/16 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 403 -s 125.168.11.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.11.0/24 any 172.217.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.11.0/24 --dport 2500 -s 172.217.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 151.101.0.0/16 any 125.168.11.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 151.101.0.0/16 -s 125.168.11.0/24 -j ACCEPT
+### tuple ### allow tcp 80 151.101.0.0/16 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 80 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 151.101.0.0/16 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 8080 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 151.101.0.0/16 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 403 -s 125.168.11.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.11.0/24 any 151.101.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.11.0/24 --dport 2500 -s 151.101.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 40.64.0.0/10 any 125.168.11.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 40.64.0.0/10 -s 125.168.11.0/24 -j ACCEPT
+### tuple ### allow tcp 80 40.64.0.0/10 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 80 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 40.64.0.0/10 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 8080 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 40.64.0.0/10 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 403 -s 125.168.11.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.11.0/24 any 40.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.11.0/24 --dport 2500 -s 40.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 208.80.152.0/22 any 125.168.11.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 208.80.152.0/22 -s 125.168.11.0/24 -j ACCEPT
+### tuple ### allow tcp 80 208.80.152.0/22 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 80 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 208.80.152.0/22 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 8080 -s 125.168.11.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 208.80.152.0/22 any 125.168.11.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 403 -s 125.168.11.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.11.0/24 any 208.80.152.0/22 in
 -A ufw-user-input -p tcp -d 125.168.11.0/24 --dport 2500 -s 208.80.152.0/22 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.12.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.12.0/24 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.12.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.12.0/24 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.12.0/24 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.12.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.12.0/24 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.12.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.12.0/24 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.12.0/24 -s 125.168.4.0/22 -j ACCEPT
@@ -83,44 +137,86 @@
 ### tuple ### allow tcp any 125.168.12.0/24 any 125.168.8.0/23 in
 -A ufw-user-input -p tcp -d 125.168.12.0/24 -s 125.168.8.0/23 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 13.64.0.0/10 any 125.168.12.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 13.64.0.0/10 -s 125.168.12.0/24 -j ACCEPT
+### tuple ### allow tcp 80 13.64.0.0/10 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 80 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 13.64.0.0/10 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 8080 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 13.64.0.0/10 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 403 -s 125.168.12.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.12.0/24 any 13.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.12.0/24 --dport 2500 -s 13.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 172.217.0.0/16 any 125.168.12.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 172.217.0.0/16 -s 125.168.12.0/24 -j ACCEPT
+### tuple ### allow tcp 80 172.217.0.0/16 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 80 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 172.217.0.0/16 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 8080 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 172.217.0.0/16 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 403 -s 125.168.12.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.12.0/24 any 172.217.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.12.0/24 --dport 2500 -s 172.217.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 151.101.0.0/16 any 125.168.12.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 151.101.0.0/16 -s 125.168.12.0/24 -j ACCEPT
+### tuple ### allow tcp 80 151.101.0.0/16 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 80 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 151.101.0.0/16 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 8080 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 151.101.0.0/16 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 403 -s 125.168.12.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.12.0/24 any 151.101.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.12.0/24 --dport 2500 -s 151.101.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 40.64.0.0/10 any 125.168.12.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 40.64.0.0/10 -s 125.168.12.0/24 -j ACCEPT
+### tuple ### allow tcp 80 40.64.0.0/10 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 80 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 40.64.0.0/10 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 8080 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 40.64.0.0/10 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 403 -s 125.168.12.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.12.0/24 any 40.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.12.0/24 --dport 2500 -s 40.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 208.80.152.0/22 any 125.168.12.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 208.80.152.0/22 -s 125.168.12.0/24 -j ACCEPT
+### tuple ### allow tcp 80 208.80.152.0/22 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 80 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 208.80.152.0/22 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 8080 -s 125.168.12.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 208.80.152.0/22 any 125.168.12.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 403 -s 125.168.12.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.12.0/24 any 208.80.152.0/22 in
 -A ufw-user-input -p tcp -d 125.168.12.0/24 --dport 2500 -s 208.80.152.0/22 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.13.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.13.0/24 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.13.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.13.0/24 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.13.0/24 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.13.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.13.0/24 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.13.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.13.0/24 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.13.0/24 -s 125.168.4.0/22 -j ACCEPT
@@ -131,44 +227,86 @@
 ### tuple ### allow tcp any 125.168.13.0/24 any 125.168.8.0/23 in
 -A ufw-user-input -p tcp -d 125.168.13.0/24 -s 125.168.8.0/23 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 13.64.0.0/10 any 125.168.13.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 13.64.0.0/10 -s 125.168.13.0/24 -j ACCEPT
+### tuple ### allow tcp 80 13.64.0.0/10 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 80 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 13.64.0.0/10 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 8080 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 13.64.0.0/10 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 403 -s 125.168.13.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.13.0/24 any 13.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.13.0/24 --dport 2500 -s 13.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 172.217.0.0/16 any 125.168.13.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 172.217.0.0/16 -s 125.168.13.0/24 -j ACCEPT
+### tuple ### allow tcp 80 172.217.0.0/16 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 80 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 172.217.0.0/16 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 8080 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 172.217.0.0/16 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 403 -s 125.168.13.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.13.0/24 any 172.217.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.13.0/24 --dport 2500 -s 172.217.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 151.101.0.0/16 any 125.168.13.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 151.101.0.0/16 -s 125.168.13.0/24 -j ACCEPT
+### tuple ### allow tcp 80 151.101.0.0/16 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 80 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 151.101.0.0/16 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 8080 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 151.101.0.0/16 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 403 -s 125.168.13.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.13.0/24 any 151.101.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.13.0/24 --dport 2500 -s 151.101.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 40.64.0.0/10 any 125.168.13.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 40.64.0.0/10 -s 125.168.13.0/24 -j ACCEPT
+### tuple ### allow tcp 80 40.64.0.0/10 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 80 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 40.64.0.0/10 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 8080 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 40.64.0.0/10 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 403 -s 125.168.13.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.13.0/24 any 40.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.13.0/24 --dport 2500 -s 40.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 208.80.152.0/22 any 125.168.13.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 208.80.152.0/22 -s 125.168.13.0/24 -j ACCEPT
+### tuple ### allow tcp 80 208.80.152.0/22 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 80 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 208.80.152.0/22 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 8080 -s 125.168.13.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 208.80.152.0/22 any 125.168.13.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 403 -s 125.168.13.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.13.0/24 any 208.80.152.0/22 in
 -A ufw-user-input -p tcp -d 125.168.13.0/24 --dport 2500 -s 208.80.152.0/22 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.14.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.14.0/23 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.14.0/23 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.14.0/23 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.14.0/23 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.14.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.14.0/23 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.14.0/23 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.14.0/23 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.14.0/23 -s 125.168.4.0/22 -j ACCEPT
@@ -191,44 +329,86 @@
 ### tuple ### allow tcp any 125.168.14.0/23 any 125.168.10.0/24 in
 -A ufw-user-input -p tcp -d 125.168.14.0/23 -s 125.168.10.0/24 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 13.64.0.0/10 any 125.168.14.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 13.64.0.0/10 -s 125.168.14.0/23 -j ACCEPT
+### tuple ### allow tcp 80 13.64.0.0/10 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 80 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 13.64.0.0/10 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 8080 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 13.64.0.0/10 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 403 -s 125.168.14.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.14.0/23 any 13.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.14.0/23 --dport 2500 -s 13.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 172.217.0.0/16 any 125.168.14.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 172.217.0.0/16 -s 125.168.14.0/23 -j ACCEPT
+### tuple ### allow tcp 80 172.217.0.0/16 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 80 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 172.217.0.0/16 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 8080 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 172.217.0.0/16 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 403 -s 125.168.14.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.14.0/23 any 172.217.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.14.0/23 --dport 2500 -s 172.217.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 151.101.0.0/16 any 125.168.14.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 151.101.0.0/16 -s 125.168.14.0/23 -j ACCEPT
+### tuple ### allow tcp 80 151.101.0.0/16 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 80 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 151.101.0.0/16 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 8080 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 151.101.0.0/16 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 403 -s 125.168.14.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.14.0/23 any 151.101.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.14.0/23 --dport 2500 -s 151.101.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 40.64.0.0/10 any 125.168.14.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 40.64.0.0/10 -s 125.168.14.0/23 -j ACCEPT
+### tuple ### allow tcp 80 40.64.0.0/10 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 80 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 40.64.0.0/10 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 8080 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 40.64.0.0/10 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 403 -s 125.168.14.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.14.0/23 any 40.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.14.0/23 --dport 2500 -s 40.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 208.80.152.0/22 any 125.168.14.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 208.80.152.0/22 -s 125.168.14.0/23 -j ACCEPT
+### tuple ### allow tcp 80 208.80.152.0/22 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 80 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 208.80.152.0/22 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 8080 -s 125.168.14.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 208.80.152.0/22 any 125.168.14.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 403 -s 125.168.14.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.14.0/23 any 208.80.152.0/22 in
 -A ufw-user-input -p tcp -d 125.168.14.0/23 --dport 2500 -s 208.80.152.0/22 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.16.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.16.0/23 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.16.0/23 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.16.0/23 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.16.0/23 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.16.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.16.0/23 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.16.0/23 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.16.0/23 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.16.0/23 -s 125.168.4.0/22 -j ACCEPT
@@ -251,44 +431,86 @@
 ### tuple ### allow tcp any 125.168.16.0/23 any 125.168.10.0/24 in
 -A ufw-user-input -p tcp -d 125.168.16.0/23 -s 125.168.10.0/24 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 13.64.0.0/10 any 125.168.16.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 13.64.0.0/10 -s 125.168.16.0/23 -j ACCEPT
+### tuple ### allow tcp 80 13.64.0.0/10 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 80 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 13.64.0.0/10 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 8080 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 13.64.0.0/10 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 403 -s 125.168.16.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.16.0/23 any 13.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.16.0/23 --dport 2500 -s 13.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 172.217.0.0/16 any 125.168.16.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 172.217.0.0/16 -s 125.168.16.0/23 -j ACCEPT
+### tuple ### allow tcp 80 172.217.0.0/16 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 80 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 172.217.0.0/16 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 8080 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 172.217.0.0/16 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 403 -s 125.168.16.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.16.0/23 any 172.217.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.16.0/23 --dport 2500 -s 172.217.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 151.101.0.0/16 any 125.168.16.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 151.101.0.0/16 -s 125.168.16.0/23 -j ACCEPT
+### tuple ### allow tcp 80 151.101.0.0/16 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 80 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 151.101.0.0/16 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 8080 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 151.101.0.0/16 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 403 -s 125.168.16.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.16.0/23 any 151.101.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.16.0/23 --dport 2500 -s 151.101.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 40.64.0.0/10 any 125.168.16.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 40.64.0.0/10 -s 125.168.16.0/23 -j ACCEPT
+### tuple ### allow tcp 80 40.64.0.0/10 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 80 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 40.64.0.0/10 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 8080 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 40.64.0.0/10 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 403 -s 125.168.16.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.16.0/23 any 40.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.16.0/23 --dport 2500 -s 40.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 208.80.152.0/22 any 125.168.16.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 208.80.152.0/22 -s 125.168.16.0/23 -j ACCEPT
+### tuple ### allow tcp 80 208.80.152.0/22 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 80 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 208.80.152.0/22 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 8080 -s 125.168.16.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 208.80.152.0/22 any 125.168.16.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 403 -s 125.168.16.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.16.0/23 any 208.80.152.0/22 in
 -A ufw-user-input -p tcp -d 125.168.16.0/23 --dport 2500 -s 208.80.152.0/22 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.18.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.18.0/23 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.18.0/23 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.18.0/23 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.18.0/23 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.18.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.18.0/23 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.18.0/23 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.18.0/23 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.18.0/23 -s 125.168.4.0/22 -j ACCEPT
@@ -311,44 +533,86 @@
 ### tuple ### allow tcp any 125.168.18.0/23 any 125.168.10.0/24 in
 -A ufw-user-input -p tcp -d 125.168.18.0/23 -s 125.168.10.0/24 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 13.64.0.0/10 any 125.168.18.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 13.64.0.0/10 -s 125.168.18.0/23 -j ACCEPT
+### tuple ### allow tcp 80 13.64.0.0/10 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 80 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 13.64.0.0/10 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 8080 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 13.64.0.0/10 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 403 -s 125.168.18.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.18.0/23 any 13.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.18.0/23 --dport 2500 -s 13.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 172.217.0.0/16 any 125.168.18.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 172.217.0.0/16 -s 125.168.18.0/23 -j ACCEPT
+### tuple ### allow tcp 80 172.217.0.0/16 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 80 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 172.217.0.0/16 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 8080 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 172.217.0.0/16 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 403 -s 125.168.18.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.18.0/23 any 172.217.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.18.0/23 --dport 2500 -s 172.217.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 151.101.0.0/16 any 125.168.18.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 151.101.0.0/16 -s 125.168.18.0/23 -j ACCEPT
+### tuple ### allow tcp 80 151.101.0.0/16 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 80 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 151.101.0.0/16 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 8080 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 151.101.0.0/16 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 403 -s 125.168.18.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.18.0/23 any 151.101.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.18.0/23 --dport 2500 -s 151.101.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 40.64.0.0/10 any 125.168.18.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 40.64.0.0/10 -s 125.168.18.0/23 -j ACCEPT
+### tuple ### allow tcp 80 40.64.0.0/10 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 80 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 40.64.0.0/10 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 8080 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 40.64.0.0/10 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 403 -s 125.168.18.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.18.0/23 any 40.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.18.0/23 --dport 2500 -s 40.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 208.80.152.0/22 any 125.168.18.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 208.80.152.0/22 -s 125.168.18.0/23 -j ACCEPT
+### tuple ### allow tcp 80 208.80.152.0/22 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 80 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 208.80.152.0/22 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 8080 -s 125.168.18.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 208.80.152.0/22 any 125.168.18.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 403 -s 125.168.18.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.18.0/23 any 208.80.152.0/22 in
 -A ufw-user-input -p tcp -d 125.168.18.0/23 --dport 2500 -s 208.80.152.0/22 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.20.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.20.0/23 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.20.0/23 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.20.0/23 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.20.0/23 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.20.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.20.0/23 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.20.0/23 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.20.0/23 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.20.0/23 -s 125.168.4.0/22 -j ACCEPT
@@ -371,44 +635,86 @@
 ### tuple ### allow tcp any 125.168.20.0/23 any 125.168.10.0/24 in
 -A ufw-user-input -p tcp -d 125.168.20.0/23 -s 125.168.10.0/24 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 13.64.0.0/10 any 125.168.20.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 13.64.0.0/10 -s 125.168.20.0/23 -j ACCEPT
+### tuple ### allow tcp 80 13.64.0.0/10 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 80 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 13.64.0.0/10 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 8080 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 13.64.0.0/10 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 403 -s 125.168.20.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.20.0/23 any 13.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.20.0/23 --dport 2500 -s 13.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 172.217.0.0/16 any 125.168.20.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 172.217.0.0/16 -s 125.168.20.0/23 -j ACCEPT
+### tuple ### allow tcp 80 172.217.0.0/16 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 80 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 172.217.0.0/16 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 8080 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 172.217.0.0/16 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 403 -s 125.168.20.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.20.0/23 any 172.217.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.20.0/23 --dport 2500 -s 172.217.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 151.101.0.0/16 any 125.168.20.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 151.101.0.0/16 -s 125.168.20.0/23 -j ACCEPT
+### tuple ### allow tcp 80 151.101.0.0/16 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 80 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 151.101.0.0/16 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 8080 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 151.101.0.0/16 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 403 -s 125.168.20.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.20.0/23 any 151.101.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.20.0/23 --dport 2500 -s 151.101.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 40.64.0.0/10 any 125.168.20.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 40.64.0.0/10 -s 125.168.20.0/23 -j ACCEPT
+### tuple ### allow tcp 80 40.64.0.0/10 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 80 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 40.64.0.0/10 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 8080 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 40.64.0.0/10 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 403 -s 125.168.20.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.20.0/23 any 40.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.20.0/23 --dport 2500 -s 40.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 208.80.152.0/22 any 125.168.20.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 208.80.152.0/22 -s 125.168.20.0/23 -j ACCEPT
+### tuple ### allow tcp 80 208.80.152.0/22 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 80 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 208.80.152.0/22 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 8080 -s 125.168.20.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 208.80.152.0/22 any 125.168.20.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 403 -s 125.168.20.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.20.0/23 any 208.80.152.0/22 in
 -A ufw-user-input -p tcp -d 125.168.20.0/23 --dport 2500 -s 208.80.152.0/22 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.22.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.22.0/23 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.22.0/23 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.22.0/23 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.22.0/23 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.22.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.22.0/23 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.22.0/23 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.22.0/23 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.22.0/23 -s 125.168.4.0/22 -j ACCEPT
@@ -431,44 +737,86 @@
 ### tuple ### allow tcp any 125.168.22.0/23 any 125.168.10.0/24 in
 -A ufw-user-input -p tcp -d 125.168.22.0/23 -s 125.168.10.0/24 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 13.64.0.0/10 any 125.168.22.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 13.64.0.0/10 -s 125.168.22.0/23 -j ACCEPT
+### tuple ### allow tcp 80 13.64.0.0/10 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 80 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 13.64.0.0/10 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 8080 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 13.64.0.0/10 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 403 -s 125.168.22.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.22.0/23 any 13.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.22.0/23 --dport 2500 -s 13.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 172.217.0.0/16 any 125.168.22.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 172.217.0.0/16 -s 125.168.22.0/23 -j ACCEPT
+### tuple ### allow tcp 80 172.217.0.0/16 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 80 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 172.217.0.0/16 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 8080 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 172.217.0.0/16 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 403 -s 125.168.22.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.22.0/23 any 172.217.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.22.0/23 --dport 2500 -s 172.217.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 151.101.0.0/16 any 125.168.22.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 151.101.0.0/16 -s 125.168.22.0/23 -j ACCEPT
+### tuple ### allow tcp 80 151.101.0.0/16 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 80 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 151.101.0.0/16 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 8080 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 151.101.0.0/16 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 403 -s 125.168.22.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.22.0/23 any 151.101.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.22.0/23 --dport 2500 -s 151.101.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 40.64.0.0/10 any 125.168.22.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 40.64.0.0/10 -s 125.168.22.0/23 -j ACCEPT
+### tuple ### allow tcp 80 40.64.0.0/10 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 80 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 40.64.0.0/10 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 8080 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 40.64.0.0/10 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 403 -s 125.168.22.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.22.0/23 any 40.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.22.0/23 --dport 2500 -s 40.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 208.80.152.0/22 any 125.168.22.0/23 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 208.80.152.0/22 -s 125.168.22.0/23 -j ACCEPT
+### tuple ### allow tcp 80 208.80.152.0/22 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 80 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 8080 208.80.152.0/22 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 8080 -s 125.168.22.0/23 -j ACCEPT
+
+### tuple ### allow tcp 403 208.80.152.0/22 any 125.168.22.0/23 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 403 -s 125.168.22.0/23 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.22.0/23 any 208.80.152.0/22 in
 -A ufw-user-input -p tcp -d 125.168.22.0/23 --dport 2500 -s 208.80.152.0/22 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.25.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.25.0/24 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.25.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.25.0/24 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.25.0/24 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.25.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.25.0/24 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.25.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.25.0/24 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.25.0/24 -s 125.168.4.0/22 -j ACCEPT
@@ -491,44 +839,86 @@
 ### tuple ### allow tcp any 125.168.25.0/24 any 125.168.10.0/24 in
 -A ufw-user-input -p tcp -d 125.168.25.0/24 -s 125.168.10.0/24 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 13.64.0.0/10 any 125.168.25.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 13.64.0.0/10 -s 125.168.25.0/24 -j ACCEPT
+### tuple ### allow tcp 80 13.64.0.0/10 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 80 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 13.64.0.0/10 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 8080 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 13.64.0.0/10 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 13.64.0.0/10 --dport 403 -s 125.168.25.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.25.0/24 any 13.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.25.0/24 --dport 2500 -s 13.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 172.217.0.0/16 any 125.168.25.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 172.217.0.0/16 -s 125.168.25.0/24 -j ACCEPT
+### tuple ### allow tcp 80 172.217.0.0/16 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 80 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 172.217.0.0/16 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 8080 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 172.217.0.0/16 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 172.217.0.0/16 --dport 403 -s 125.168.25.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.25.0/24 any 172.217.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.25.0/24 --dport 2500 -s 172.217.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 151.101.0.0/16 any 125.168.25.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 151.101.0.0/16 -s 125.168.25.0/24 -j ACCEPT
+### tuple ### allow tcp 80 151.101.0.0/16 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 80 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 151.101.0.0/16 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 8080 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 151.101.0.0/16 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 151.101.0.0/16 --dport 403 -s 125.168.25.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.25.0/24 any 151.101.0.0/16 in
 -A ufw-user-input -p tcp -d 125.168.25.0/24 --dport 2500 -s 151.101.0.0/16 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 40.64.0.0/10 any 125.168.25.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 40.64.0.0/10 -s 125.168.25.0/24 -j ACCEPT
+### tuple ### allow tcp 80 40.64.0.0/10 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 80 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 40.64.0.0/10 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 8080 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 40.64.0.0/10 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 40.64.0.0/10 --dport 403 -s 125.168.25.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.25.0/24 any 40.64.0.0/10 in
 -A ufw-user-input -p tcp -d 125.168.25.0/24 --dport 2500 -s 40.64.0.0/10 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 208.80.152.0/22 any 125.168.25.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 208.80.152.0/22 -s 125.168.25.0/24 -j ACCEPT
+### tuple ### allow tcp 80 208.80.152.0/22 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 80 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 208.80.152.0/22 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 8080 -s 125.168.25.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 208.80.152.0/22 any 125.168.25.0/24 in
+-A ufw-user-input -p tcp -d 208.80.152.0/22 --dport 403 -s 125.168.25.0/24 -j ACCEPT
 
 ### tuple ### allow tcp 2500 125.168.25.0/24 any 208.80.152.0/22 in
 -A ufw-user-input -p tcp -d 125.168.25.0/24 --dport 2500 -s 208.80.152.0/22 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.26.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.26.0/24 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.26.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.26.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.26.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.26.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.26.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.26.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.26.0/24 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.26.0/24 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.26.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.26.0/24 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.26.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.26.0/24 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.26.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.26.0/24 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.26.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.26.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.26.0/24 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.26.0/24 -s 125.168.4.0/22 -j ACCEPT
@@ -545,14 +935,26 @@
 ### tuple ### allow tcp any 125.168.26.0/24 any 125.168.8.0/23 in
 -A ufw-user-input -p tcp -d 125.168.26.0/24 -s 125.168.8.0/23 -j ACCEPT
 
-### tuple ### allow tcp 80,403,8080 125.158.0.0/22 any 125.168.24.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 80,403,8080 -d 125.158.0.0/22 -s 125.168.24.0/24 -j ACCEPT
+### tuple ### allow tcp 80 125.158.0.0/22 any 125.168.24.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 80 -s 125.168.24.0/24 -j ACCEPT
+
+### tuple ### allow tcp 8080 125.158.0.0/22 any 125.168.24.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 8080 -s 125.168.24.0/24 -j ACCEPT
+
+### tuple ### allow tcp 403 125.158.0.0/22 any 125.168.24.0/24 in
+-A ufw-user-input -p tcp -d 125.158.0.0/22 --dport 403 -s 125.168.24.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.24.0/24 any 125.158.0.0/22 in
 -A ufw-user-input -p tcp -d 125.168.24.0/24 -s 125.158.0.0/22 -j ACCEPT
 
-### tuple ### allow tcp 25,110,995 125.168.4.0/22 any 125.168.24.0/24 in
--A ufw-user-input -p tcp -m multiport --dports 25,110,995 -d 125.168.4.0/22 -s 125.168.24.0/24 -j ACCEPT
+### tuple ### allow tcp 25 125.168.4.0/22 any 125.168.24.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 25 -s 125.168.24.0/24 -j ACCEPT
+
+### tuple ### allow tcp 110 125.168.4.0/22 any 125.168.24.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 110 -s 125.168.24.0/24 -j ACCEPT
+
+### tuple ### allow tcp 995 125.168.4.0/22 any 125.168.24.0/24 in
+-A ufw-user-input -p tcp -d 125.168.4.0/22 --dport 995 -s 125.168.24.0/24 -j ACCEPT
 
 ### tuple ### allow tcp any 125.168.24.0/24 any 125.168.4.0/22 in
 -A ufw-user-input -p tcp -d 125.168.24.0/24 -s 125.168.4.0/22 -j ACCEPT
