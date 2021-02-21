@@ -262,7 +262,7 @@ public class Rule {
 	 * @return
 	 */
 	public boolean isRedundant(Rule rule) {
-		return equals(rule)&& action == rule.getAction();
+		return equals(rule) && action == rule.getAction();
 	}
 	
 	/**

@@ -5,8 +5,8 @@ package infernobuster.model;
  *
  */
 public class IpRange {
-	private int start; // CIDR
-	private int end; // CIDR
+	private long start; // CIDR
+	private long end; // CIDR
 	
 	/**
 	 * 
@@ -20,7 +20,7 @@ public class IpRange {
 	 * 
 	 * @return
 	 */
-	public int getStart() {
+	public long getStart() {
 		return start;
 	}
 
@@ -28,7 +28,7 @@ public class IpRange {
 	 * 
 	 * @return
 	 */
-	public int getEnd() {
+	public long getEnd() {
 		return end;
 	}
 	
@@ -38,7 +38,7 @@ public class IpRange {
 	 * @return
 	 */
 	public boolean equals(IpRange ipRange) {
-	 return Integer.compareUnsigned(start, ipRange.start) == 0 && Integer.compareUnsigned(end, ipRange.end) == 0;
+	 return Long.compareUnsigned(start, ipRange.start) == 0 && Long.compareUnsigned(end, ipRange.end) == 0;
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class IpRange {
 	 * @return
 	 */
 	public boolean isSubset(IpRange ipRange) {
-		return Integer.compareUnsigned(start, ipRange.start) >= 0 && Integer.compareUnsigned(end, ipRange.end) <= 0;
+		return Long.compareUnsigned(start, ipRange.start) >= 0 && Long.compareUnsigned(end, ipRange.end) <= 0;
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class IpRange {
 	 * @return
 	 */
 	public boolean isSuperset(IpRange ipRange) {
-		return Integer.compareUnsigned(start, ipRange.start) <= 0 && Integer.compareUnsigned(end, ipRange.end) >= 0;
+		return Long.compareUnsigned(start, ipRange.start) <= 0 && Long.compareUnsigned(end, ipRange.end) >= 0;
 	}
 	
 	/**
@@ -65,8 +65,8 @@ public class IpRange {
 	 * @return
 	 */
 	public boolean isIntersecting(IpRange ipRange) {
-		return !isSubset(ipRange) && !isSubset(ipRange) && (Integer.compareUnsigned(start, ipRange.start) <= 0 && Integer.compareUnsigned(end, ipRange.end) <= 0)
-				|| Integer.compareUnsigned(start, ipRange.start) >= 0 && Integer.compareUnsigned(end, ipRange.end) >= 0;
+		return !isSubset(ipRange) && !isSubset(ipRange) && (Long.compareUnsigned(start, ipRange.start) <= 0 && Long.compareUnsigned(end, ipRange.end) <= 0)
+				|| Long.compareUnsigned(start, ipRange.start) >= 0 && Long.compareUnsigned(end, ipRange.end) >= 0;
 	}
 	
 	/**
@@ -87,15 +87,15 @@ public class IpRange {
 		String[] parsed = ip.split("/"); // Splits the address and the mask
         String[] startingIp = parsed[0].split("\\.");
         
-        int mask = 1;
+        long mask = 1;
         if(parsed.length > 1) {
-            mask = Integer.parseInt(parsed[1]);
+            mask = Long.parseLong(parsed[1]);
         }
         
-        int ipStart = 0;
+        long ipStart = 0;
         // Converting to byte
         for(String octet : startingIp) {
-            ipStart += Integer.parseInt(octet);
+            ipStart += Long.parseLong(octet);
             ipStart = ipStart << 8;
         }
 
