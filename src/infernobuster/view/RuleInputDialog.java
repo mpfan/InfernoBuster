@@ -98,13 +98,13 @@ public class RuleInputDialog extends JPanel {
 		
 		// Field validation
 		if((sport < -1 || sport > 65535) || (dport < -1 || dport > 65535)) {
-			JOptionPane.showMessageDialog(null, "Invalid Port","Port must be between 0 and 65535", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Port must be between 0 and 65535", "Invalid Port", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 		
 		
 		if(!(checkIpFormat(sourceIp.getValue()) && checkIpFormat(destinationIp.getValue()))) {
-			JOptionPane.showMessageDialog(null, "Invalid IP","Ip address must be in the format: [0-255].[0-255].[0-255].[0-255]/[0-32]", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Ip address must be in the format: [0-255].[0-255].[0-255].[0-255]/[0-32]", "Invalid IP", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 		
