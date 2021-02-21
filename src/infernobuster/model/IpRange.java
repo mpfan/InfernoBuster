@@ -60,13 +60,16 @@ public class IpRange {
 	}
 	
 	/**
+	 * Logic: start > other.start && start < other.end && end > other.end
+	 *        or
+	 *		  start < other.start && end > other.start && end < other.end
 	 * 
 	 * @param ipRange
 	 * @return
 	 */
 	public boolean isIntersecting(IpRange ipRange) {
-		return !isSubset(ipRange) && !isSubset(ipRange) && (Long.compareUnsigned(start, ipRange.start) <= 0 && Long.compareUnsigned(end, ipRange.end) <= 0)
-				|| Long.compareUnsigned(start, ipRange.start) >= 0 && Long.compareUnsigned(end, ipRange.end) >= 0;
+		return (Long.compareUnsigned(start, ipRange.start) <= 0 && Long.compareUnsigned(end, ipRange.end) >= 0 && Long.compareUnsigned(end, ipRange.end) <= 0)
+				|| (Long.compareUnsigned(start, ipRange.start) >= 0 && Long.compareUnsigned(start, ipRange.end) <= 0 && Long.compareUnsigned(end, ipRange.end) >= 0);
 	}
 	
 	/**
