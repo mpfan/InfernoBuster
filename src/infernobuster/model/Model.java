@@ -204,9 +204,25 @@ public class Model extends AbstractTableModel {
 		} else if(columnIndex == DESTINTATION_IP_INDEX) {
 			rule.setDestinationIp(value);
 		} else if(columnIndex == SOURCE_PORT_INDEX) {
-			rule.setSourcePort(Integer.parseInt(value));
+			int sport = -2;
+			
+			if(value.equalsIgnoreCase("any")) {
+				sport = -1;
+			} else {
+				sport = Integer.parseInt(value);
+			}
+			
+			rule.setSourcePort(sport);
 		} else if(columnIndex == DESTINTATION_PORT_INDEX) {
-			rule.setDestinationPort(Integer.parseInt(value));
+			int dport = -2;
+			
+			if(value.equalsIgnoreCase("any")) {
+				dport = -1;
+			} else {
+				dport = Integer.parseInt(value);
+			}
+			
+			rule.setDestinationPort(dport);
 		} else if(columnIndex == PRIORITY_INDEX) {
 			rule.setPriority(Integer.parseInt(value));
 		}
