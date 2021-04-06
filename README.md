@@ -16,4 +16,9 @@ Jason Jaskolka
 ## Contributions
 Use the following link for [Commit Convention](https://www.conventionalcommits.org/en/v1.0.0/). All contributions to the project should pretain to an [Issue](https://github.com/mpfan/InfernoBuster/issues). Individual contributions to the project should be made through Pull Requests into the Dev branch.
 
-## Operational Logic
+## About our Project
+https://youtu.be/hDgUStDPbLk
+
+
+## Tutorial video
+https://youtu.be/flbTEQttjD4
