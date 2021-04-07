@@ -2,7 +2,7 @@ package infernobuster.model;
 
 import java.util.ArrayList;
 
-public class IpTableParser extends Parser{
+public class IpTableParser implements Parser{
 	public IpTableParser() {}
 
 	public ArrayList<Rule> parse(ArrayList<String> content) throws ParserException {
