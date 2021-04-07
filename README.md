@@ -30,7 +30,7 @@ First clone the project like
 `git clone https://github.com/mpfan/InfernoBuster.git` 
 
 Then navigate to the project folder like  
-`cd ./InfernoBuster/infer`  
+`cd ./InfernoBuster`  
 
 From here you can either use Intellij or the command line to run the project.
 ### Intellij
