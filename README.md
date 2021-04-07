@@ -19,7 +19,6 @@ Jason Jaskolka
 ## About our Project
 A Youtube video about our project can be found [here](https://www.youtube.com/watch?v=WFze8DN9dI4).
 
-
 ## Tutorial video
 A Youtube video about how to use infernobuster can be found [here](https://youtu.be/flbTEQttjD4).
 
