@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Souheil
  *
  */
-public class UFWParser extends Parser {
+public class UFWParser implements Parser {
 
 	public UFWParser() {
 	}
