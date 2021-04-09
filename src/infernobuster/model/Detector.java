@@ -10,6 +10,7 @@ public class Detector {
 	
 	// Algorithm 
 	public DetectionResult detect(ArrayList<Rule> rules) {
+		long startTime = System.nanoTime();
 		HashMap<Anomaly, Set<Rule>> result = new HashMap<Anomaly, Set<Rule>>();
 		HashMap<Integer, ArrayList<Integer>> conflictingRules = new HashMap<Integer, ArrayList<Integer>>();
 
@@ -57,7 +58,9 @@ public class Detector {
 				}
 			}
 		}
-		
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime);
+		System.out.println("Detector took " + duration/1000000 + " milliseconds to find anomalies in " + rules.size() + " rules");
 		return new DetectionResult(result, conflictingRules);
 	}
 }
