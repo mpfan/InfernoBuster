@@ -68,7 +68,7 @@ public class IpRange {
 	 * @return
 	 */
 	public boolean isIntersecting(IpRange ipRange) {
-		return (Long.compareUnsigned(start, ipRange.start) <= 0 && Long.compareUnsigned(end, ipRange.end) >= 0 && Long.compareUnsigned(end, ipRange.end) <= 0)
+		return (Long.compareUnsigned(start, ipRange.start) <= 0 && Long.compareUnsigned(end, ipRange.start) >= 0 && Long.compareUnsigned(end, ipRange.end) <= 0)
 				|| (Long.compareUnsigned(start, ipRange.start) >= 0 && Long.compareUnsigned(start, ipRange.end) <= 0 && Long.compareUnsigned(end, ipRange.end) >= 0);
 	}
 	

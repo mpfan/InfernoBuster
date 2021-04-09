@@ -6,6 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Mrunal Patel 101001748
+ */
 public class RuleTest extends TestCase {
 
     Rule rule1, rule2, rule3;
@@ -119,18 +122,12 @@ public class RuleTest extends TestCase {
     }
 
     @Test
-    public void testSetSourcIP(){
+    public void testSetSourceIP(){
         System.out.println("Testing setSourceIp");
-        //String tempSourcIP = "209.143.143.1/33";
+//        String tempSourceIP = "209.143.143.1/33";
         IpRange tempSource = null;
-        //tempSource.rule.setSourceIP("209.143.143.1/33");
+//        tempSource.rule.setSourceIP("209.143.143.1/33");
         System.out.println("Test: Success");
     }
-
-    /*public void name(){
-        System.out.println("Testing name");
-
-        System.out.println("Test: Success");
-    }*/
 
 }
