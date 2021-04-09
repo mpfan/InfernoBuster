@@ -1,13 +1,13 @@
 package infernobuster.model;
 
-import org.junit.Assert;
 import org.junit.Test;
-
-import javax.print.attribute.standard.Destination;
-
 import static org.junit.Assert.*;
 
-public class RuleTest2 {
+/**
+ *
+ * @author Souheil, Michael, Hoang, Tamer
+ */
+public class RuleTest {
 
 
     @Test
@@ -54,15 +54,15 @@ public class RuleTest2 {
 
     @Test
     public void isCorrelating() {
-        Rule rule1 = new Rule("10.0.4.0/23", "10.0.4.0/23", 33, 33, Action.ALLOW, Direction.IN, Protocol.TCP, 0);
-        Rule rule2 = new Rule("10.0.4.0/23", "10.0.4.0/23", 33, 33, Action.DENY, Direction.IN, Protocol.TCP, 0);
+        Rule rule1 = new Rule("255.255.0.1/16", "10.0.4.0/23", 33, 33, Action.ALLOW, Direction.IN, Protocol.TCP, 0);
+        Rule rule2 = new Rule("255.255.255.128/25", "10.0.4.0/23", 33, 33, Action.DENY, Direction.IN, Protocol.TCP, 0);
         assertTrue(rule2.isCorrelating(rule1));
     }
 
     @Test
     public void isPartialRedundant() {
-        Rule rule1 = new Rule("10.0.7.0/23", "119.2.2.10/24", 33, 33, Action.ALLOW, Direction.IN, Protocol.TCP, 0);
-        Rule rule2 = new Rule("10.0.7.0/23", "119.2.2.10/24", 33, 33, Action.ALLOW, Direction.IN, Protocol.TCP, 0);
+        Rule rule1 = new Rule("255.255.0.1/16", "119.2.2.10/24", 33, 33, Action.ALLOW, Direction.IN, Protocol.TCP, 0);
+        Rule rule2 = new Rule("255.255.255.128/25", "119.2.2.10/24", 33, 33, Action.ALLOW, Direction.IN, Protocol.TCP, 0);
         assertTrue(rule1.isPartialRedundant(rule2));
     }
 

@@ -1,6 +1,6 @@
 # Infernobuster
 
-## About
+# About
 Infernobuster is a tool that can analyze and isolate conflicting firewall rules in a firewall rule configuration file. The tool can be used to help modify existing rules and create non-conflicting rules. Currently, the supported firewall types are UFW and IPtables. The tool does not modify the original configuration file. Instead, the user may export a new configuration file which they can choose to deploy.
 
 Infernobuster is built with Java only. A screenshot of Infernobuster is shown below:
@@ -16,14 +16,29 @@ Jason Jaskolka
 - Mrunal Patel
 - Souheil Yazji
 
-## About our Project
+# About our Project
 A Youtube video about our project can be found [here](https://www.youtube.com/watch?v=WFze8DN9dI4).
 
-## Tutorial video
+# Tutorial video
 A Youtube video about how to use infernobuster can be found [here](https://youtu.be/flbTEQttjD4).
 
-## Dependencies
-The only dependency that Infernobuster has is JUnit. 
+# Dependencies
+
+1. JUnit 4 - This is used for unit testing. 
+`        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+`
+2. Apache Common Net - This is used for evaluating subnet masks.
+`       <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.6</version>
+        </dependency>
+`
 
 ## Building and Running
 First clone the project like  
