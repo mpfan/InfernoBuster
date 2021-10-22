@@ -7,7 +7,7 @@ Infernobuster is built with Java only. A screenshot of Infernobuster is shown be
 ![Infernobuster](./docs/images/infernobuster.png)
 
 ## Supervisor
-Jason Jaskolka
+Dr. Jason Jaskolka
 
 ## Authors
 - Hoang Bui
